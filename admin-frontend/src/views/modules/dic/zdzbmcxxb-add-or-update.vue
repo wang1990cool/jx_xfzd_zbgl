@@ -7,9 +7,6 @@
     <el-form-item label="类别编码" prop="zblbmc" hidden="true">
       <el-input v-model="dataForm.zblbmc" placeholder="类别编码"></el-input>
     </el-form-item>
-<!--    <el-form-item label="类别名称" prop="zblbmc">
-      <el-input v-model="dataForm.zblbmc" placeholder="类别名称"></el-input>
-    </el-form-item>-->
       <el-form-item label="类别名称" prop="zblbid">
         <el-select v-model="dataForm.zblbid" label="栏目" placeholder="请选择" @change="selectGet">
           <el-option v-for="item in zblbList" :key="item.value" :label="item.label" :value="item.value" >
@@ -19,6 +16,7 @@
     <el-form-item label="装备编码" prop="zbid" hidden="true">
       <el-input v-model="dataForm.zbid" placeholder="装备编码"></el-input>
     </el-form-item>
+
     <el-form-item label="装备名称" prop="zbmc">
       <el-input v-model="dataForm.zbmc" placeholder="装备名称"></el-input>
     </el-form-item>
@@ -57,7 +55,7 @@
           zbid: '',
           zbmc: '',
           bfzq: -1,
-          byzq: -1,
+          byzq: '',
           bz: '',
           createUserId: '',
           createTime: ''
@@ -135,11 +133,11 @@
         obj = this.zblbList.find((item) => {//这里的hymcDate就是上面遍历的数据源
           return item.value === vId;//筛选出匹配数据
         });
-
-//        this.dataForm.zblbid = obj.value
+        this.dataForm.zblbid = obj.value
         this.dataForm.zblbmc = obj.label
 
       },
+
       // 表单提交
       dataFormSubmit () {
         this.$refs['dataForm'].validate((valid) => {

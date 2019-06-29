@@ -1,8 +1,6 @@
 package io.admin.modules.dic.zbmc.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +88,20 @@ public class ZdZbmcxxbController {
 			zdZbmcxxbService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/select")
+    public R selectList(@RequestParam String zblbid){
+        List<ZdZbmcxxbEntity> zbmcList= zdZbmcxxbService.selectByZblbid(zblbid);
+        ArrayList arrays = new ArrayList();
+        for (int i=0;i<zbmcList.size();i++){
+            Map map = new HashMap();
+            map.put("value",zbmcList.get(i).getZbid());
+            map.put("label",zbmcList.get(i).getZbmc());
+            arrays.add(map);
+        }
+
+        return R.ok().put("zbmcList",arrays);
     }
 
 }

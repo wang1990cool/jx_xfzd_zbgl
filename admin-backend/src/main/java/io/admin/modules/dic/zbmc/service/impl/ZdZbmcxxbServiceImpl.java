@@ -69,4 +69,12 @@ public class ZdZbmcxxbServiceImpl extends ServiceImpl<ZdZbmcxxbDao, ZdZbmcxxbEnt
         }
     }
 
+    @Override
+    public List<ZdZbmcxxbEntity> selectByZblbid(String zblbid){
+        List<ZdZbmcxxbEntity> zbmcList = baseMapper.selectList(new EntityWrapper<ZdZbmcxxbEntity>().
+                like(StringUtils.isNotBlank(zblbid), "zblbid", zblbid));
+
+        return zbmcList;
+    }
+
 }
