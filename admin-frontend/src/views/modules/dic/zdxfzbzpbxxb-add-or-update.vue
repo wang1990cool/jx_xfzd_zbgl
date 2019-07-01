@@ -31,11 +31,24 @@
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="最大库存" prop="zbslmax">
+
+    <el-form-item label="最大配备" prop="zbslmax">
+      <el-input-number v-model="dataForm.zbslmax"  :min="0"  label="最大配备"></el-input-number>
+<!--
       <el-input v-model="dataForm.zbslmax" placeholder=""></el-input>
+-->
     </el-form-item>
-    <el-form-item label="最小库存" prop="zbslmin">
+    <el-form-item label="最小配备" prop="zbslmin">
+<!--
       <el-input v-model="dataForm.zbslmin" placeholder=""></el-input>
+-->
+      <el-input-number v-model="dataForm.zbslmin"  :min="0"  label="最小配备"></el-input-number>
+    </el-form-item>
+    <el-form-item label="备份数量" prop="bfzbsl">
+<!--
+      <el-input v-model="dataForm.bfzbsl" placeholder=""></el-input>
+-->
+      <el-input-number v-model="dataForm.bfzbsl"  :min="0"  label="备份数量"></el-input-number>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -59,7 +72,8 @@
           zbmcbh: '',
           zbmc: '',
           zbslmax: '',
-          zbslmin: ''
+          zbslmin: '',
+          bfzbsl: ''
         },
         xfzlbList: [],
         zblbList: [],
@@ -125,6 +139,7 @@
                       this.dataForm.zbmc = data.zdxfzbzpbxxb.zbmc
                       this.dataForm.zbslmax = data.zdxfzbzpbxxb.zbslmax
                       this.dataForm.zbslmin = data.zdxfzbzpbxxb.zbslmin
+                      this.dataForm.bfzbsl = data.zdxfzbzpbxxb.bfzbsl
                     }
                   })
                 }
@@ -200,7 +215,8 @@
                 'zbmcbh': this.dataForm.zbmcbh,
                 'zbmc': this.dataForm.zbmc,
                 'zbslmax': this.dataForm.zbslmax,
-                'zbslmin': this.dataForm.zbslmin
+                'zbslmin': this.dataForm.zbslmin,
+                'bfzbsl': this.dataForm.bfzbsl
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
