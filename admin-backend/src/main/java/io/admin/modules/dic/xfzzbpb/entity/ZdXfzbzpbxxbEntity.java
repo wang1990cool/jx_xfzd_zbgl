@@ -55,6 +55,8 @@ public class ZdXfzbzpbxxbEntity implements Serializable {
 	 */
 	private Integer zbslmin;
 
+	private Integer bfzbsl;
+
 	/**
 	 * 设置：
 	 */
@@ -162,5 +164,13 @@ public class ZdXfzbzpbxxbEntity implements Serializable {
 	 */
 	public Integer getZbslmin() {
 		return zbslmin;
+	}
+
+	public Integer getBfzbsl() {
+		return bfzbsl;
+	}
+
+	public void setBfzbsl(Integer bfzbsl) {
+		this.bfzbsl = bfzbsl;
 	}
 }

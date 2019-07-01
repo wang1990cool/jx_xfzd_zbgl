@@ -2,7 +2,10 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.zblbmc" placeholder="类别名称" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -64,24 +67,7 @@
         align="center"
         label="保养周期 -1：不保养，单位为月">
       </el-table-column>
-<!--      <el-table-column
-        prop="bz"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="createUserId"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>-->
-<!--      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>-->
+
       <el-table-column
         fixed="right"
         header-align="center"
@@ -114,7 +100,8 @@
     data () {
       return {
         dataForm: {
-          key: ''
+          zblbmc: '',
+          zbmc: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -141,7 +128,8 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'key': this.dataForm.key
+            'zblbmc': this.dataForm.zblbmc,
+            'zbmc': this.dataForm.zbmc
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
