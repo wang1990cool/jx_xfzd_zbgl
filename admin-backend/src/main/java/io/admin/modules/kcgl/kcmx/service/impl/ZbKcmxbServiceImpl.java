@@ -1,4 +1,4 @@
-package io.admin.modules.dic.zbmc.service.impl;
+package io.admin.modules.kcgl.kcmx.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -11,36 +11,39 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.Query;
 
-import io.admin.modules.dic.zbmc.dao.ZdZbmcxxbDao;
-import io.admin.modules.dic.zbmc.entity.ZdZbmcxxbEntity;
-import io.admin.modules.dic.zbmc.service.ZdZbmcxxbService;
+import io.admin.modules.kcgl.kcmx.dao.ZbKcmxbDao;
+import io.admin.modules.kcgl.kcmx.entity.ZbKcmxbEntity;
+import io.admin.modules.kcgl.kcmx.service.ZbKcmxbService;
 
 
-@Service("zdZbmcxxbService")
-public class ZdZbmcxxbServiceImpl extends ServiceImpl<ZdZbmcxxbDao, ZdZbmcxxbEntity> implements ZdZbmcxxbService {
+@Service("zbKcmxbService")
+public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> implements ZbKcmxbService {
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String zblbmc=(String)params.get("zblbmc");
+        String ssbmmc=(String)params.get("ssbmmc");
         String zbmc=(String)params.get("zbmc");
-        Page<ZdZbmcxxbEntity> page = this.selectPage(
-                new Query<ZdZbmcxxbEntity>(params).getPage(),
-                new EntityWrapper<ZdZbmcxxbEntity>().
-                        like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc).
-                        like(StringUtils.isNotBlank(zblbmc), "zblbmc", zblbmc)
+        String xssbmmc=(String)params.get("xssbmmc");
+        Page<ZbKcmxbEntity> page = this.selectPage(
+                new Query<ZbKcmxbEntity>(params).getPage(),
+                new EntityWrapper<ZbKcmxbEntity>().
+                        like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
+                        like(StringUtils.isNotBlank(zbmc), "zblbmc", zbmc).
+                        like(StringUtils.isNotBlank(xssbmmc), "xssbmmc", xssbmmc)
         );
 
         return new PageUtils(page);
     }
+
     @Override
     public String getXlh(String zblbid){
-        List<ZdZbmcxxbEntity> list=baseMapper.selectList(new EntityWrapper<ZdZbmcxxbEntity>().
+        List<ZbKcmxbEntity> list=baseMapper.selectList(new EntityWrapper<ZbKcmxbEntity>().
                 like(StringUtils.isNotBlank(zblbid), "zbid", zblbid)
-);
-        String [] array = new String[list.size()]; //保存已经存在的培养方案号
+        );
+        String [] array = new String[list.size()]; //保存已经存在的号
         if(list.size() > 0){
             for(int i = 0;i < list.size(); i++){
-                array[i] = list.get(i).getZbid();
+                array[i] = list.get(i).getZbbm();
             }
         }
         String SerialNum = createSerialNum(array, 3);// 创建后3位
@@ -71,14 +74,6 @@ public class ZdZbmcxxbServiceImpl extends ServiceImpl<ZdZbmcxxbDao, ZdZbmcxxbEnt
             SerialNum = String.format("%0" + len + "d",  1);
             return  SerialNum;
         }
-    }
-
-    @Override
-    public List<ZdZbmcxxbEntity> selectByZblbid(String zblbid){
-        List<ZdZbmcxxbEntity> zbmcList = baseMapper.selectList(new EntityWrapper<ZdZbmcxxbEntity>().
-                like(StringUtils.isNotBlank(zblbid), "zblbid", zblbid));
-
-        return zbmcList;
     }
 
 }
