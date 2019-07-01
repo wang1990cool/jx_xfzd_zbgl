@@ -1,14 +1,7 @@
 <template>
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-      <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('borrow:zbjrsqmxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('borrow:zbjrsqmxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-      </el-form-item>
+
     </el-form>
     <el-table
       :data="dataList"
@@ -23,35 +16,12 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="id"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="jrsqid"
-        header-align="center"
-        align="center"
-        label="申请单ID">
-      </el-table-column>
-      <el-table-column
-        prop="zblbid"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
         prop="zblbmc"
         header-align="center"
         align="center"
         label="装备类别">
       </el-table-column>
-      <el-table-column
-        prop="zbid"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
+
       <el-table-column
         prop="zbmc"
         header-align="center"
@@ -68,7 +38,7 @@
         fixed="right"
         header-align="center"
         align="center"
-        width="150"
+        width="110"
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
@@ -76,22 +46,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="sizeChangeHandle"
-      @current-change="currentChangeHandle"
-      :current-page="pageIndex"
-      :page-sizes="[10, 20, 50, 100]"
-      :page-size="pageSize"
-      :total="totalPage"
-      layout="total, sizes, prev, pager, next, jumper">
-    </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './zbjrsqmxb-add-or-update'
+  import AddOrUpdate from './jrsqmx-add-or-update'
   export default {
     data () {
       return {

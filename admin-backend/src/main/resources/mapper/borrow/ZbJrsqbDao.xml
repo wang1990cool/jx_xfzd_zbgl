@@ -17,6 +17,7 @@
         <result property="bz" column="bz"/>
         <result property="createUserId" column="create_user_id"/>
         <result property="createTime" column="create_time"/>
+        <result property="jrsqid" column="jrsqid"/>
     </resultMap>
 
 

@@ -4,12 +4,20 @@
       <el-form-item>
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
+
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('borrow:zbjrsqb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('borrow:zbjrsqb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button @click="getDataAllList()" icon="el-icon-zoom-out" type="primary" plain >取消</el-button>
       </el-form-item>
     </el-form>
+
+    <el-form >
+      <el-form-item style="margin-bottom: 5px">
+        <el-button v-if="isAuth('borrow:jrsq:save')" size="small" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('borrow:jrsq:delete')" size="small"  type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+      </el-form-item>
+    </el-form>
+
     <el-table
       :data="dataList"
       border
@@ -23,76 +31,49 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="id"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
         prop="sqmc"
         header-align="center"
         align="center"
-        label="">
+        label="借用单名称">
       </el-table-column>
       <el-table-column
         prop="sqbmid"
         header-align="center"
         align="center"
-        label="">
+        v-if="false"
+        label="申请部门编号">
       </el-table-column>
       <el-table-column
         prop="sqbmmc"
         header-align="center"
         align="center"
-        label="">
+        label="申请部门">
       </el-table-column>
       <el-table-column
         prop="jcbmid"
         header-align="center"
         align="center"
-        label="">
+        v-if="false"
+        label="借出部门编号">
       </el-table-column>
       <el-table-column
         prop="jcbmmc"
         header-align="center"
         align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="ztm"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="zt"
-        header-align="center"
-        align="center"
-        label="">
+        label="借出部门">
       </el-table-column>
       <el-table-column
         prop="ghrq"
         header-align="center"
         align="center"
-        label="">
+        label="归还日期">
       </el-table-column>
       <el-table-column
-        prop="bz"
+        prop="zt"
         header-align="center"
         align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="createUserId"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        label="">
+        width="120"
+        label="状态">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -121,16 +102,17 @@
 </template>
 
 <script>
-  import AddOrUpdate from './zbjrsqb-add-or-update'
+  import AddOrUpdate from './jrsq-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          key: ''
+          sqmc: ''
         },
         dataList: [],
         pageIndex: 1,
         pageSize: 10,
+        order: '',
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
@@ -148,11 +130,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/borrow/zbjrsqb/list'),
+          url: this.$http.adornUrl('/borrow/jrsq/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
+            'order': this.order,
             'key': this.dataForm.key
           })
         }).then(({data}) => {
@@ -165,6 +148,11 @@
           }
           this.dataListLoading = false
         })
+      },
+
+      getDataAllList () {
+        this.dataForm.sqmc = '';
+        this.getDataList();
       },
       // 每页数
       sizeChangeHandle (val) {
