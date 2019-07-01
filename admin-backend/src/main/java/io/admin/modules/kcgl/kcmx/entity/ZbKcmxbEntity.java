@@ -47,6 +47,10 @@ public class ZbKcmxbEntity implements Serializable {
 	 */
 	private Integer ztm;
 	/**
+	 * 状态显示
+	 */
+	private String ztxs;
+	/**
 	 * 状态
 	 */
 	private String zt;
@@ -258,5 +262,13 @@ public class ZbKcmxbEntity implements Serializable {
 	 */
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public String getZtxs() {
+		return ztxs;
+	}
+
+	public void setZtxs(String ztxs) {
+		this.ztxs = ztxs;
 	}
 }

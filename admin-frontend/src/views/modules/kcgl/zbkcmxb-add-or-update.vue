@@ -4,31 +4,34 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
-    <el-form-item label="装备编码" prop="zbbm">
+    <el-form-item label="装备编码" prop="zbbm" >
       <el-input v-model="dataForm.zbbm" placeholder="装备编码"></el-input>
     </el-form-item>
-    <el-form-item label="装备名称编号" prop="zbid">
-      <el-input v-model="dataForm.zbid" placeholder="装备名称编号" hidden="true"></el-input>
+    <el-form-item label="装备名称编号" prop="zbid"  hidden="true">
+      <el-input v-model="dataForm.zbid" placeholder="装备名称编号"></el-input>
     </el-form-item>
     <el-form-item label="装备名称" prop="zbmc">
       <el-input v-model="dataForm.zbmc" placeholder="装备名称"></el-input>
     </el-form-item>
-    <el-form-item label="所属部门id" prop="ssbmid">
-      <el-input v-model="dataForm.ssbmid" placeholder="所属部门id" hidden="true"></el-input>
+    <el-form-item label="所属部门id" prop="ssbmid"  hidden="true">
+      <el-input v-model="dataForm.ssbmid" placeholder="所属部门id"></el-input>
     </el-form-item>
-    <el-form-item label="所属部门名称" prop="ssbmmc">
+    <el-form-item label="原属部门" prop="ssbmmc">
       <el-input v-model="dataForm.ssbmmc" placeholder="所属部门名称"></el-input>
     </el-form-item>
-    <el-form-item label="状态吗" prop="ztm">
-      <el-input v-model="dataForm.ztm" placeholder="状态吗" hidden="true"></el-input>
+    <el-form-item label="状态码" prop="ztm"  hidden="true">
+      <el-input v-model="dataForm.ztm" placeholder="状态码"></el-input>
     </el-form-item>
-    <el-form-item label="状态" prop="zt">
-      <el-input v-model="dataForm.zt" placeholder="状态"></el-input>
+      <el-form-item label="状态" prop="ztxs"  hidden="true">
+        <el-input v-model="dataForm.ztxs" placeholder="状态"></el-input>
+      </el-form-item>
+    <el-form-item label="状态位置" prop="zt"  hidden="true">
+      <el-input v-model="dataForm.zt" placeholder="状态位置"></el-input>
     </el-form-item>
     <el-form-item label="现所属部门编码" prop="xssbmid" hidden="true">
       <el-input v-model="dataForm.xssbmid" placeholder="现所属部门编码"></el-input>
     </el-form-item>
-    <el-form-item label="现所属部门名称" prop="xssbmmc">
+    <el-form-item label="现属部门" prop="xssbmmc">
       <el-input v-model="dataForm.xssbmmc" placeholder="现所属部门名称"></el-input>
     </el-form-item>
     <el-form-item label="报废日期" prop="bfrq">
@@ -40,10 +43,10 @@
     <el-form-item label="生产日期" prop="scrq">
       <el-input v-model="dataForm.scrq" placeholder="生产日期"></el-input>
     </el-form-item>
-    <el-form-item label="" prop="createUserId">
+    <el-form-item label="" prop="createUserId" hidden="true">
       <el-input v-model="dataForm.createUserId" placeholder=""></el-input>
     </el-form-item>
-    <el-form-item label="" prop="createTime">
+    <el-form-item label="" prop="createTime" hidden="true">
       <el-input v-model="dataForm.createTime" placeholder=""></el-input>
     </el-form-item>
     </el-form>

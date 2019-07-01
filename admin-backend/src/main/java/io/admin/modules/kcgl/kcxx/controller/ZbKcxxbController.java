@@ -74,7 +74,8 @@ public class ZbKcxxbController {
                 zbKcmxb.setSsbmid(zbKcxxb.getSsbmid());
                 zbKcmxb.setSsbmmc(zbKcxxb.getSsbmmc());
                 zbKcmxb.setZtm(1);
-                zbKcmxb.setZt(zbKcxxb.getSsbmid().toString());
+                zbKcmxb.setZtxs("在库");
+                zbKcmxb.setZt(zbKcxxb.getSsbmmc());
                 zbKcmxb.setXssbmid(zbKcxxb.getSsbmid());
                 zbKcmxb.setXssbmmc(zbKcxxb.getSsbmmc());
                 zbKcmxb.setScrq(zbKcxxb.getScrq());

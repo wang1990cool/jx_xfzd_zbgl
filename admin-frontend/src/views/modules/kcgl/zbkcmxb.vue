@@ -29,23 +29,12 @@
         width="50">
       </el-table-column>
 <!--      <el-table-column
-        prop="id"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
--->      <el-table-column
         prop="zbbm"
         header-align="center"
         align="center"
         label="装备编码">
-      </el-table-column>
-<!--      <el-table-column
-        prop="zbid"
-        header-align="center"
-        align="center"
-        label="装备名称编号">
       </el-table-column>-->
+
       <el-table-column
         prop="zbmc"
         header-align="center"
@@ -64,7 +53,7 @@
         align="center"
         label="所属部门名称">
       </el-table-column>
-      <el-table-column
+<!--      <el-table-column
         prop="ztm"
         header-align="center"
         align="center"
@@ -89,13 +78,19 @@
             微型消防站
           </el-button>
         </template>
-      </el-table-column>
-<!--      <el-table-column
-        prop="zt"
+      </el-table-column>-->
+      <el-table-column
+        prop="ztxs"
         header-align="center"
         align="center"
         label="状态">
       </el-table-column>-->
+      <el-table-column
+        prop="zt"
+        header-align="center"
+        align="center"
+        label="装备位置">
+      </el-table-column>
 <!--      <el-table-column
         prop="xssbmid"
         header-align="center"

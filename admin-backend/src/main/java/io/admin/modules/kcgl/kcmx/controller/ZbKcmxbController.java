@@ -51,7 +51,7 @@ public class ZbKcmxbController {
     public R info(@PathVariable("id") Long id){
 			ZbKcmxbEntity zbKcmxb = zbKcmxbService.selectById(id);
 
-        return R.ok().put("zbKcmxb", zbKcmxb);
+        return R.ok().put("zbkcmxb", zbKcmxb);
     }
 
     /**
