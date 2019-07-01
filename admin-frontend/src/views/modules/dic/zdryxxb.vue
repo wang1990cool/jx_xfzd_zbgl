@@ -2,7 +2,10 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.ssbmmc" placeholder="所属部门" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="dataForm.ryxm" placeholder="姓名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -52,18 +55,6 @@
         align="center"
         label="所属部门">
       </el-table-column>
-<!--      <el-table-column
-        prop="createUserId"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        label="">
-      </el-table-column>-->
       <el-table-column
         fixed="right"
         header-align="center"
@@ -96,7 +87,8 @@
     data () {
       return {
         dataForm: {
-          key: ''
+          ssbmmc: '',
+          ryxm: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -123,7 +115,8 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'key': this.dataForm.key
+            'ssbmmc': this.dataForm.ssbmmc,
+            'ryxm': this.dataForm.ryxm
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
