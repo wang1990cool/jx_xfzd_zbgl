@@ -2,6 +2,8 @@ package io.admin.modules.dic.ryxx.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -29,6 +31,14 @@ public class ZdRyxxbServiceImpl extends ServiceImpl<ZdRyxxbDao, ZdRyxxbEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<ZdRyxxbEntity> selectByssbmid(String ssbmid){
+        List<ZdRyxxbEntity> ryxxList = baseMapper.selectList(new EntityWrapper<ZdRyxxbEntity>().
+                like(StringUtils.isNotBlank(ssbmid), "ssbmid", ssbmid));
+
+        return ryxxList;
     }
 
 }

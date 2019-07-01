@@ -1,4 +1,4 @@
-package io.admin.modules.dic.ryxx.controller;
+package io.admin.modules.dic.clxx.controller;
 
 import java.util.*;
 
@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.admin.modules.dic.ryxx.entity.ZdRyxxbEntity;
-import io.admin.modules.dic.ryxx.service.ZdRyxxbService;
+import io.admin.modules.dic.clxx.entity.ZdClxxbEntity;
+import io.admin.modules.dic.clxx.service.ZdClxxbService;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 
 
 
 /**
- * 人员信息表
+ * 库存信息表
  *
  * @author chenshun
  * @email sunlightcs@gmail.com
- * @date 2019-06-30 22:50:14
+ * @date 2019-07-01 20:09:18
  */
 @RestController
-@RequestMapping("dic/zdryxxb")
-public class ZdRyxxbController {
+@RequestMapping("dic/zdclxxb")
+public class ZdClxxbController {
     @Autowired
-    private ZdRyxxbService zdRyxxbService;
+    private ZdClxxbService zdClxxbService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("dic:zdryxxb:list")
+    @RequiresPermissions("dic:zdclxxb:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = zdRyxxbService.queryPage(params);
+        PageUtils page = zdClxxbService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -46,20 +46,20 @@ public class ZdRyxxbController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("dic:zdryxxb:info")
-    public R info(@PathVariable("id") Long id){
-			ZdRyxxbEntity zdRyxxb = zdRyxxbService.selectById(id);
+    @RequiresPermissions("dic:zdclxxb:info")
+    public R info(@PathVariable("id") Integer id){
+			ZdClxxbEntity zdClxxb = zdClxxbService.selectById(id);
 
-        return R.ok().put("zdryxxb", zdRyxxb);
+        return R.ok().put("zdclxxb", zdClxxb);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("dic:zdryxxb:save")
-    public R save(@RequestBody ZdRyxxbEntity zdRyxxb){
-			zdRyxxbService.insert(zdRyxxb);
+    @RequiresPermissions("dic:zdclxxb:save")
+    public R save(@RequestBody ZdClxxbEntity zdClxxb){
+			zdClxxbService.insert(zdClxxb);
 
         return R.ok();
     }
@@ -68,9 +68,9 @@ public class ZdRyxxbController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("dic:zdryxxb:update")
-    public R update(@RequestBody ZdRyxxbEntity zdRyxxb){
-			zdRyxxbService.updateById(zdRyxxb);
+    @RequiresPermissions("dic:zdclxxb:update")
+    public R update(@RequestBody ZdClxxbEntity zdClxxb){
+			zdClxxbService.updateById(zdClxxb);
 
         return R.ok();
     }
@@ -79,25 +79,26 @@ public class ZdRyxxbController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("dic:zdryxxb:delete")
-    public R delete(@RequestBody Long[] ids){
-			zdRyxxbService.deleteBatchIds(Arrays.asList(ids));
+    @RequiresPermissions("dic:zdclxxb:delete")
+    public R delete(@RequestBody Integer[] ids){
+			zdClxxbService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
     }
 
     @RequestMapping("/select")
     public R selectList(@RequestParam String ssbmid){
-        List<ZdRyxxbEntity> ryxxList= zdRyxxbService.selectByssbmid(ssbmid);
+        List<ZdClxxbEntity> clxxList= zdClxxbService.selectByssbmid(ssbmid);
         ArrayList arrays = new ArrayList();
-        for (int i=0;i<ryxxList.size();i++){
+        for (int i=0;i<clxxList.size();i++){
             Map map = new HashMap();
-            map.put("value",ryxxList.get(i).getRybh());
-            map.put("label",ryxxList.get(i).getRyxm());
+            map.put("value",clxxList.get(i).getId());
+            map.put("label",clxxList.get(i).getCph());
             arrays.add(map);
         }
 
-        return R.ok().put("ryxxList",arrays);
+        return R.ok().put("clxxList",arrays);
     }
+
 
 }
