@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.admin.modules.borrow.dao.ZbJrsqmxbDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.admin.modules.borrow.entity.ZbJrsqmxbEntity" id="zbJrsqmxbMap">
+        <result property="id" column="id"/>
+        <result property="jrsqid" column="jrsqid"/>
+        <result property="zblbid" column="zblbid"/>
+        <result property="zblbmc" column="zblbmc"/>
+        <result property="zbid" column="zbid"/>
+        <result property="zbmc" column="zbmc"/>
+        <result property="zbsl" column="zbsl"/>
+    </resultMap>
+
+
+</mapper>

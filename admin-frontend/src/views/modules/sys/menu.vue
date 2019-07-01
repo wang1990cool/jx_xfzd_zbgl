@@ -98,8 +98,7 @@
         dataForm: {},
         dataList: [],
         dataListLoading: false,
-        addOrUpdateVisible: false
-      }
+        addOrUpdateVisible: false}
     },
     components: {
       TableTreeColumn,

@@ -10,12 +10,13 @@ import '@/element-ui-theme'
 import '@/assets/scss/index.scss'
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
 import { isAuth } from '@/utils'
-
-
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/index.css'
 
 window.$ = require('jointjs')
 Vue.use(ElementUI)
 Vue.use(VueCookie)
+Vue.use(VXETable)
 
 Vue.config.productionTip = false
 
