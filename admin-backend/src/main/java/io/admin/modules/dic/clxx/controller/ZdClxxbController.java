@@ -15,6 +15,7 @@ import io.admin.modules.dic.clxx.service.ZdClxxbService;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 
+import static io.admin.common.utils.ShiroUtils.getUserEntity;
 
 
 /**
@@ -88,7 +89,22 @@ public class ZdClxxbController {
 
     @RequestMapping("/select")
     public R selectList(@RequestParam String ssbmid){
-        List<ZdClxxbEntity> clxxList= zdClxxbService.selectByssbmid(ssbmid);
+        List<ZdClxxbEntity> clxxList= zdClxxbService.selectByssbmmc(ssbmid);
+        ArrayList arrays = new ArrayList();
+        for (int i=0;i<clxxList.size();i++){
+            Map map = new HashMap();
+            map.put("value",clxxList.get(i).getId());
+            map.put("label",clxxList.get(i).getCph());
+            arrays.add(map);
+        }
+
+        return R.ok().put("clxxList",arrays);
+    }
+
+    @RequestMapping("/selectByssbmmc")
+    public R selectList(){
+        String ssbmmc=getUserEntity().getUnit();
+        List<ZdClxxbEntity> clxxList= zdClxxbService.selectByssbmmc(ssbmmc);
         ArrayList arrays = new ArrayList();
         for (int i=0;i<clxxList.size();i++){
             Map map = new HashMap();

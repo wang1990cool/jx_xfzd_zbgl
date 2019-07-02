@@ -34,11 +34,11 @@ public class ZdRyxxbServiceImpl extends ServiceImpl<ZdRyxxbDao, ZdRyxxbEntity> i
     }
 
     @Override
-    public List<ZdRyxxbEntity> selectByssbmid(String ssbmid){
-        List<ZdRyxxbEntity> ryxxList = baseMapper.selectList(new EntityWrapper<ZdRyxxbEntity>().
-                like(StringUtils.isNotBlank(ssbmid), "ssbmid", ssbmid));
+    public List<ZdRyxxbEntity> selectByssbmmc(String ssbmmc){
+        List<ZdRyxxbEntity> clxxList = baseMapper.selectList(new EntityWrapper<ZdRyxxbEntity>().
+                like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc));
 
-        return ryxxList;
+        return clxxList;
     }
 
 }

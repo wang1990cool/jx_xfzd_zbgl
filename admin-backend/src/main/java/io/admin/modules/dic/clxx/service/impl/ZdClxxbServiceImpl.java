@@ -33,9 +33,9 @@ public class ZdClxxbServiceImpl extends ServiceImpl<ZdClxxbDao, ZdClxxbEntity> i
         return new PageUtils(page);
     }
     @Override
-    public List<ZdClxxbEntity> selectByssbmid(String ssbmid){
+    public List<ZdClxxbEntity> selectByssbmmc(String ssbmmc){
         List<ZdClxxbEntity> clxxList = baseMapper.selectList(new EntityWrapper<ZdClxxbEntity>().
-                like(StringUtils.isNotBlank(ssbmid), "ssbmid", ssbmid));
+                like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc));
 
         return clxxList;
     }

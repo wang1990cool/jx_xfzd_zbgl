@@ -1,7 +1,6 @@
 package io.admin.modules.kcgl.kcmx.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import io.admin.modules.kcgl.kcmx.service.ZbKcmxbService;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 
+import static io.admin.common.utils.ShiroUtils.getUserEntity;
 
 
 /**
@@ -71,7 +71,7 @@ public class ZbKcmxbController {
     @RequestMapping("/update")
     @RequiresPermissions("kcgl:zbkcmxb:update")
     public R update(@RequestBody ZbKcmxbEntity zbKcmxb){
-			zbKcmxbService.updateById(zbKcmxb);
+        zbKcmxbService.updateById(zbKcmxb);
 
         return R.ok();
     }
@@ -85,6 +85,20 @@ public class ZbKcmxbController {
 			zbKcmxbService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/select")
+    public R selectList(@RequestParam String zbid){
+        List<ZbKcmxbEntity> kcmxList= zbKcmxbService.selectList(zbid,1,getUserEntity().getUnit());
+        ArrayList arrays = new ArrayList();
+        for (int i=0;i<kcmxList.size();i++){
+            Map map = new HashMap();
+            map.put("value",kcmxList.get(i).getZbbm());
+            map.put("label",kcmxList.get(i).getZbbm()+ kcmxList.get(i).getZbmc());
+            arrays.add(map);
+        }
+
+        return R.ok().put("zbbmList",arrays);
     }
 
 }

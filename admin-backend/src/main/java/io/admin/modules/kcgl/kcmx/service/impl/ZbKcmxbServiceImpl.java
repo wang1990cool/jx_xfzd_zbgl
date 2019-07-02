@@ -21,6 +21,9 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+
+        String zt=(String)params.get("zt");
+        String ztxs=(String)params.get("ztxs");
         String ssbmmc=(String)params.get("ssbmmc");
         String zbmc=(String)params.get("zbmc");
         String xssbmmc=(String)params.get("xssbmmc");
@@ -29,7 +32,10 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
                 new EntityWrapper<ZbKcmxbEntity>().
                         like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
                         like(StringUtils.isNotBlank(zbmc), "zblbmc", zbmc).
-                        like(StringUtils.isNotBlank(xssbmmc), "xssbmmc", xssbmmc)
+                        like(StringUtils.isNotBlank(xssbmmc), "xssbmmc", xssbmmc).
+                        like(StringUtils.isNotBlank(ztxs), "ztxs", ztxs).
+                        like(StringUtils.isNotBlank(zt), "zt", zt)
+
         );
 
         return new PageUtils(page);
@@ -75,5 +81,32 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
             return  SerialNum;
         }
     }
+
+    @Override
+    public List<ZbKcmxbEntity> selectList(String ssbmid, int ztm){
+        List<ZbKcmxbEntity> kcxxList = baseMapper.selectList(new EntityWrapper<ZbKcmxbEntity>().
+                like(StringUtils.isNotBlank(ssbmid), "ssbmid", ssbmid).
+                eq("ztm",ztm));
+
+        return kcxxList;
+    }
+
+    @Override
+    public List<ZbKcmxbEntity> selectList(String zbid,int ztm,String ssbmmc){
+        List<ZbKcmxbEntity> ryxxList = baseMapper.selectList(new EntityWrapper<ZbKcmxbEntity>().
+                like(StringUtils.isNotBlank(zbid), "zbid", zbid).
+                like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
+                eq("ztm",ztm));
+
+        return ryxxList;
+    }
+
+    public ZbKcmxbEntity selectByzbbm(String zbbm){
+        List<ZbKcmxbEntity> ryxxList = baseMapper.selectList(new EntityWrapper<ZbKcmxbEntity>().
+                like(StringUtils.isNotBlank(zbbm), "zbbm", zbbm));
+
+        return ryxxList.get(0);
+    }
+
 
 }

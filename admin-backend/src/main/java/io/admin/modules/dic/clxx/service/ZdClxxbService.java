@@ -17,6 +17,6 @@ import java.util.Map;
 public interface ZdClxxbService extends IService<ZdClxxbEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
-    List<ZdClxxbEntity> selectByssbmid(String ssbmid);
+    List<ZdClxxbEntity> selectByssbmmc(String ssbmmc);
 }
 
