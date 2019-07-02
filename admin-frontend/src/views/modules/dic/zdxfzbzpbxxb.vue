@@ -54,12 +54,12 @@
         align="center"
         label="装备名称">
       </el-table-column>
-      <el-table-column
+<!--      <el-table-column
         prop="zbslmax"
         header-align="center"
         align="center"
         label="最大标准配备">
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column
         prop="zbslmin"
         header-align="center"

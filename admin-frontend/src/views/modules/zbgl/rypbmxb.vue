@@ -2,13 +2,10 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.ssbmmc" placeholder="原所属部门" clearable></el-input>
+        <el-input v-model="dataForm.rybh" placeholder="人员编号" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.xssbmmc" placeholder="现所属部门" clearable></el-input>
+        <el-input v-model="dataForm.ryxm" placeholder="人员姓名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -133,7 +130,7 @@
         align="center"
         label="入库时间">
       </el-table-column>
-      <el-table-column
+<!--      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
@@ -141,12 +138,9 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
-
-<!--
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
--->
         </template>
-      </el-table-column>
+      </el-table-column>-->
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -168,9 +162,8 @@
     data () {
       return {
         dataForm: {
-          ssbmmc: '',
-          zbmc: '',
-          xssbmmc: ''
+          rybh: '',
+          ryxm: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -197,9 +190,8 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'ssbmmc': this.dataForm.ssbmmc,
-            'zbmc': this.dataForm.zbmc,
-            'xssbmmc': this.dataForm.xssbmmc
+            'rybh': this.dataForm.rybh,
+            'ryxm': this.dataForm.ryxm
           })
         }).then(({data}) => {
           if (data && data.code === 0) {

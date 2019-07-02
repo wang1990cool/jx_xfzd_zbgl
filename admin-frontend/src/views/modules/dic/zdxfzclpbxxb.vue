@@ -2,18 +2,12 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.cph" placeholder="车牌号" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
-<!--      <el-form-item>
-        <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.xssbmmc" placeholder="现所属部门" clearable></el-input>
-      </el-form-item>-->
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('zbgl:clpbmxb:update')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('zbgl:clpbmxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('dic:zdxfzclpbxxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('dic:zdxfzclpbxxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -29,124 +23,46 @@
         width="50">
       </el-table-column>
 <!--      <el-table-column
-        prop="zbbm"
-        header-align="center"
-        align="center"
-        label="装备编码">
-      </el-table-column>-->
-
-      <el-table-column
-        prop="zbmc"
-        header-align="center"
-        align="center"
-        label="装备名称">
-      </el-table-column>
-<!--      <el-table-column
-        prop="ssbmid"
-        header-align="center"
-        align="center"
-        label="所属部门id">
-      </el-table-column>-->
-      <el-table-column
-        prop="ssbmmc"
-        header-align="center"
-        align="center"
-        label="所属部门名称">
-      </el-table-column>
-<!--      <el-table-column
-        prop="ztm"
-        header-align="center"
-        align="center"
-        label="状态码">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" v-if="scope.row.ztm ==1 " >
-            在库
-          </el-button>
-          <el-button type="text" size="small" v-if="scope.row.ztm ==2 " >
-            在车
-          </el-button>
-          <el-button type="text" size="small" v-if="scope.row.ztm ==3 " >
-            在人
-          </el-button>
-          <el-button type="text" size="small" v-if="scope.row.ztm ==4 " >
-            借出
-          </el-button>
-          <el-button type="text" size="small" v-if="scope.row.ztm ==6 " >
-            报废
-          </el-button>
-          <el-button type="text" size="small" v-if="scope.row.ztm ==7 " >
-            微型消防站
-          </el-button>
-        </template>
-      </el-table-column>-->
-      <el-table-column
-        prop="ztxs"
-        header-align="center"
-        align="center"
-        label="状态">
-      </el-table-column>-->
-      <el-table-column
-        prop="zt"
-        header-align="center"
-        align="center"
-        label="装备位置">
-      </el-table-column>
-<!--      <el-table-column
-        prop="xssbmid"
-        header-align="center"
-        align="center"
-        label="现所属部门编码">
-      </el-table-column>-->
-      <el-table-column
-        prop="xssbmmc"
-        header-align="center"
-        align="center"
-        label="现所属部门名称">
-      </el-table-column>
-<!--      <el-table-column
-        prop="bfrq"
-        header-align="center"
-        align="center"
-        label="报废日期">
-      </el-table-column>
-      <el-table-column
-        prop="byrq"
-        header-align="center"
-        align="center"
-        label="上次保养日期">
-      </el-table-column>
-      <el-table-column
-        prop="scrq"
-        header-align="center"
-        align="center"
-        label="生产日期">
-      </el-table-column>
-      <el-table-column
-        prop="createUserId"
+        prop="id"
         header-align="center"
         align="center"
         label="">
-      </el-table-column>-->
+      </el-table-column>
       <el-table-column
-        prop="createTime"
+        prop="xfzlbid"
         header-align="center"
         align="center"
-        label="入库时间">
+        label="消防站类别编码">-->
       </el-table-column>
-<!--      <el-table-column
+      <el-table-column
+        prop="xfzlbmc"
+        header-align="center"
+        align="center"
+        label="消防站类别">
+      </el-table-column>
+      <el-table-column
+        prop="zbslmax"
+        header-align="center"
+        align="center"
+        label="最大配备">
+      </el-table-column>
+      <el-table-column
+        prop="zbslmin"
+        header-align="center"
+        align="center"
+        label="最小配备">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
-
-
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
-
         </template>
-      </el-table-column>-->
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -163,12 +79,12 @@
 </template>
 
 <script>
-  import AddOrUpdate from './clpbmxb-add-or-update'
+  import AddOrUpdate from './zdxfzclpbxxb-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          cph: ''
+          key: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -190,13 +106,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/zbgl/clpbmxb/list'),
+          url: this.$http.adornUrl('/dic/zdxfzclpbxxb/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-
-            'cph': this.dataForm.cph
+            'key': this.dataForm.key
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -242,7 +157,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/kcgl/zbkcmxb/delete'),
+            url: this.$http.adornUrl('/dic/zdxfzclpbxxb/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

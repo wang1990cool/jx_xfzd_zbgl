@@ -27,6 +27,9 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
         String ssbmmc=(String)params.get("ssbmmc");
         String zbmc=(String)params.get("zbmc");
         String xssbmmc=(String)params.get("xssbmmc");
+        String rybh=(String)params.get("rybh");
+        String ryxm=(String)params.get("ryxm");
+        String cph=(String)params.get("cph");
         Page<ZbKcmxbEntity> page = this.selectPage(
                 new Query<ZbKcmxbEntity>(params).getPage(),
                 new EntityWrapper<ZbKcmxbEntity>().
@@ -34,7 +37,10 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
                         like(StringUtils.isNotBlank(zbmc), "zblbmc", zbmc).
                         like(StringUtils.isNotBlank(xssbmmc), "xssbmmc", xssbmmc).
                         like(StringUtils.isNotBlank(ztxs), "ztxs", ztxs).
-                        like(StringUtils.isNotBlank(zt), "zt", zt)
+                        like(StringUtils.isNotBlank(zt), "zt", zt).
+                        like(StringUtils.isNotBlank(rybh), "zt", rybh).
+                        like(StringUtils.isNotBlank(ryxm), "zt", ryxm).
+                        like(StringUtils.isNotBlank(cph), "zt", cph)
 
         );
 
