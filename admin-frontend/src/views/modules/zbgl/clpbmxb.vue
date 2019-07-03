@@ -2,18 +2,18 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.xfzlbmc" placeholder="消防站类别" clearable></el-input>
+        <el-input v-model="dataForm.cph" placeholder="车牌号" clearable></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.zblbmc" placeholder="装备类型" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
+<!--      <el-form-item>
         <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
+        <el-input v-model="dataForm.xssbmmc" placeholder="现所属部门" clearable></el-input>
+      </el-form-item>-->
+      <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('zbgl:clpbmxb:update')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('zbgl:clpbmxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -28,26 +28,13 @@
         align="center"
         width="50">
       </el-table-column>
-
-      <el-table-column
-        prop="xfzlbmc"
-        header-align="center"
-        align="center"
-        label="消防站类别">
-      </el-table-column>
-
-      <el-table-column
-        prop="zblbmc"
-        header-align="center"
-        align="center"
-        label="装备类型">
-      </el-table-column>
 <!--      <el-table-column
-        prop="zbmcbh"
+        prop="zbbm"
         header-align="center"
         align="center"
-        label="装备编号">
+        label="装备编码">
       </el-table-column>-->
+
       <el-table-column
         prop="zbmc"
         header-align="center"
@@ -55,34 +42,111 @@
         label="装备名称">
       </el-table-column>
 <!--      <el-table-column
-        prop="zbslmax"
+        prop="ssbmid"
         header-align="center"
         align="center"
-        label="最大标准配备">
+        label="所属部门id">
       </el-table-column>-->
       <el-table-column
-        prop="zbslmin"
+        prop="ssbmmc"
         header-align="center"
         align="center"
-        label="最小标准配备">
+        label="所属部门名称">
       </el-table-column>
-      <el-table-column
-        prop="bfzbsl"
+<!--      <el-table-column
+        prop="ztm"
         header-align="center"
         align="center"
-        label="备份数量">
+        label="状态码">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" v-if="scope.row.ztm ==1 " >
+            在库
+          </el-button>
+          <el-button type="text" size="small" v-if="scope.row.ztm ==2 " >
+            在车
+          </el-button>
+          <el-button type="text" size="small" v-if="scope.row.ztm ==3 " >
+            在人
+          </el-button>
+          <el-button type="text" size="small" v-if="scope.row.ztm ==4 " >
+            借出
+          </el-button>
+          <el-button type="text" size="small" v-if="scope.row.ztm ==6 " >
+            报废
+          </el-button>
+          <el-button type="text" size="small" v-if="scope.row.ztm ==7 " >
+            微型消防站
+          </el-button>
+        </template>
+      </el-table-column>-->
+      <el-table-column
+        prop="ztxs"
+        header-align="center"
+        align="center"
+        label="状态">
+      </el-table-column>-->
+      <el-table-column
+        prop="zt"
+        header-align="center"
+        align="center"
+        label="装备位置">
+      </el-table-column>
+<!--      <el-table-column
+        prop="xssbmid"
+        header-align="center"
+        align="center"
+        label="现所属部门编码">
+      </el-table-column>-->
+      <el-table-column
+        prop="xssbmmc"
+        header-align="center"
+        align="center"
+        label="现所属部门名称">
+      </el-table-column>
+<!--      <el-table-column
+        prop="bfrq"
+        header-align="center"
+        align="center"
+        label="报废日期">
       </el-table-column>
       <el-table-column
+        prop="byrq"
+        header-align="center"
+        align="center"
+        label="上次保养日期">
+      </el-table-column>
+      <el-table-column
+        prop="scrq"
+        header-align="center"
+        align="center"
+        label="生产日期">
+      </el-table-column>
+      <el-table-column
+        prop="createUserId"
+        header-align="center"
+        align="center"
+        label="">
+      </el-table-column>-->
+      <el-table-column
+        prop="createTime"
+        header-align="center"
+        align="center"
+        label="入库时间">
+      </el-table-column>
+<!--      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
+
+
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+
         </template>
-      </el-table-column>
+      </el-table-column>-->
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -99,14 +163,12 @@
 </template>
 
 <script>
-  import AddOrUpdate from './zdxfzbzpbxxb-add-or-update'
+  import AddOrUpdate from './clpbmxb-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          xfzlbmc: '',
-          zblbmc: '',
-          zbmc: ''
+          cph: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -128,14 +190,13 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/list'),
+          url: this.$http.adornUrl('/zbgl/clpbmxb/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'xfzlbmc': this.dataForm.xfzlbmc,
-            'zblbmc': this.dataForm.zblbmc,
-            'zbmc': this.dataForm.zbmc
+
+            'cph': this.dataForm.cph
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -181,7 +242,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/delete'),
+            url: this.$http.adornUrl('/kcgl/zbkcmxb/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

@@ -26,8 +26,8 @@ public class ZdZbmcxxbServiceImpl extends ServiceImpl<ZdZbmcxxbDao, ZdZbmcxxbEnt
         Page<ZdZbmcxxbEntity> page = this.selectPage(
                 new Query<ZdZbmcxxbEntity>(params).getPage(),
                 new EntityWrapper<ZdZbmcxxbEntity>().
-                        like(StringUtils.isNotBlank(zblbmc), "zblbmc", zblbmc).
-                        like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc)
+                        like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc).
+                        like(StringUtils.isNotBlank(zblbmc), "zblbmc", zblbmc)
         );
 
         return new PageUtils(page);

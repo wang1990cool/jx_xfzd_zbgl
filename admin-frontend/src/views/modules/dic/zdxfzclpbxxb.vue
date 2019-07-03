@@ -2,18 +2,12 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.xfzlbmc" placeholder="消防站类别" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.zblbmc" placeholder="装备类型" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('dic:zdxfzclpbxxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('dic:zdxfzclpbxxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -28,49 +22,35 @@
         align="center"
         width="50">
       </el-table-column>
-
+<!--      <el-table-column
+        prop="id"
+        header-align="center"
+        align="center"
+        label="">
+      </el-table-column>
+      <el-table-column
+        prop="xfzlbid"
+        header-align="center"
+        align="center"
+        label="消防站类别编码">-->
+      </el-table-column>
       <el-table-column
         prop="xfzlbmc"
         header-align="center"
         align="center"
         label="消防站类别">
       </el-table-column>
-
       <el-table-column
-        prop="zblbmc"
-        header-align="center"
-        align="center"
-        label="装备类型">
-      </el-table-column>
-<!--      <el-table-column
-        prop="zbmcbh"
-        header-align="center"
-        align="center"
-        label="装备编号">
-      </el-table-column>-->
-      <el-table-column
-        prop="zbmc"
-        header-align="center"
-        align="center"
-        label="装备名称">
-      </el-table-column>
-<!--      <el-table-column
         prop="zbslmax"
         header-align="center"
         align="center"
-        label="最大标准配备">
-      </el-table-column>-->
+        label="最大配备">
+      </el-table-column>
       <el-table-column
         prop="zbslmin"
         header-align="center"
         align="center"
-        label="最小标准配备">
-      </el-table-column>
-      <el-table-column
-        prop="bfzbsl"
-        header-align="center"
-        align="center"
-        label="备份数量">
+        label="最小配备">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -99,14 +79,12 @@
 </template>
 
 <script>
-  import AddOrUpdate from './zdxfzbzpbxxb-add-or-update'
+  import AddOrUpdate from './zdxfzclpbxxb-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          xfzlbmc: '',
-          zblbmc: '',
-          zbmc: ''
+          key: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -128,14 +106,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/list'),
+          url: this.$http.adornUrl('/dic/zdxfzclpbxxb/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'xfzlbmc': this.dataForm.xfzlbmc,
-            'zblbmc': this.dataForm.zblbmc,
-            'zbmc': this.dataForm.zbmc
+            'key': this.dataForm.key
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -181,7 +157,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/delete'),
+            url: this.$http.adornUrl('/dic/zdxfzclpbxxb/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

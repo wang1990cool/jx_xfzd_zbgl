@@ -1,7 +1,6 @@
 package io.admin.modules.dic.ryxx.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import io.admin.modules.dic.ryxx.service.ZdRyxxbService;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 
+import static io.admin.common.utils.ShiroUtils.getUserEntity;
 
 
 /**
@@ -85,6 +85,35 @@ public class ZdRyxxbController {
 			zdRyxxbService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/select")
+    public R selectList(@RequestParam String ssbmmc){
+        List<ZdRyxxbEntity> ryxxList= zdRyxxbService.selectByssbmmc(ssbmmc);
+        ArrayList arrays = new ArrayList();
+        for (int i=0;i<ryxxList.size();i++){
+            Map map = new HashMap();
+            map.put("value",ryxxList.get(i).getRybh());
+            map.put("label",ryxxList.get(i).getRyxm());
+            arrays.add(map);
+        }
+
+        return R.ok().put("ryxxList",arrays);
+    }
+
+    @RequestMapping("/selectByssbmmc")
+    public R selectList(){
+        String ssbmmc=getUserEntity().getUnit();
+        List<ZdRyxxbEntity> ryxxList= zdRyxxbService.selectByssbmmc(ssbmmc);
+        ArrayList arrays = new ArrayList();
+        for (int i=0;i<ryxxList.size();i++){
+            Map map = new HashMap();
+            map.put("value",ryxxList.get(i).getRybh());
+            map.put("label",ryxxList.get(i).getRyxm());
+            arrays.add(map);
+        }
+
+        return R.ok().put("ryxxList",arrays);
     }
 
 }

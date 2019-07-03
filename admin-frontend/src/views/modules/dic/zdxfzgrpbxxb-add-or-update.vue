@@ -22,33 +22,24 @@
           </el-option>
         </el-select>
       </el-form-item>
-    <el-form-item label="装备编号" prop="zbmcbh" hidden="true">
-      <el-input v-model="dataForm.zbmcbh" placeholder=""></el-input>
+      <el-form-item label="装备编号" prop="zbmcbh" hidden="true">
+        <el-input v-model="dataForm.zbmcbh" placeholder=""></el-input>
+      </el-form-item>
+      <el-form-item label="装备名称" prop="zbmc">
+        <el-select v-model="dataForm.zbmc" label="栏目" placeholder="请选择" @change="selectZbmc">
+          <el-option v-for="item in zbmcList" :key="item.label" :label="item.label" :value="item.label" >
+          </el-option>
+        </el-select>
+      </el-form-item>
+    <el-form-item label="标准数量" prop="bzpbsl">
+      <el-input-number v-model="dataForm.bzpbsl"  :min="0"  label="标准配备数量"></el-input-number>
+<!--      <el-input v-model="dataForm.bzpbsl" placeholder="标准配备数量"></el-input>-->
     </el-form-item>
-    <el-form-item label="装备名称" prop="zbmc">
-      <el-select v-model="dataForm.zbmc" label="栏目" placeholder="请选择" @change="selectZbmc">
-        <el-option v-for="item in zbmcList" :key="item.label" :label="item.label" :value="item.label" >
-        </el-option>
-      </el-select>
+    <el-form-item label="备份比" prop="bzbfb">
+      <el-input v-model="dataForm.bzbfb" placeholder="标准备份比"></el-input>
     </el-form-item>
-
-    <el-form-item label="最大配备" prop="zbslmax">
-      <el-input-number v-model="dataForm.zbslmax"  :min="0"  label="最大配备"></el-input-number>
-<!--
-      <el-input v-model="dataForm.zbslmax" placeholder=""></el-input>
--->
-    </el-form-item>
-    <el-form-item label="最小配备" prop="zbslmin" hidden="true">
-<!--
-      <el-input v-model="dataForm.zbslmin" placeholder=""></el-input>
--->
-      <el-input-number v-model="dataForm.zbslmin"  :min="0"  label="最小配备"></el-input-number>
-    </el-form-item>
-    <el-form-item label="备份数量" prop="bfzbsl">
-<!--
+    <el-form-item label="" prop="bfzbsl" hidden="true">
       <el-input v-model="dataForm.bfzbsl" placeholder=""></el-input>
--->
-      <el-input-number v-model="dataForm.bfzbsl"  :min="0"  label="备份数量"></el-input-number>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -71,8 +62,8 @@
           zblbmc: '',
           zbmcbh: '',
           zbmc: '',
-          zbslmax: '',
-          zbslmin: '',
+          bzpbsl: '',
+          bzbfb: '',
           bfzbsl: ''
         },
         xfzlbList: [],
@@ -83,25 +74,22 @@
             { required: true, message: '不能为空', trigger: 'blur' }
           ],
           xfzlbmc: [
-            { required: true, message: '不能为空', trigger: 'blur' }
+            { required: true, message: '消防站类别不能为空', trigger: 'blur' }
           ],
           zblbbh: [
-            { required: true, message: '不能为空', trigger: 'blur' }
+            { required: true, message: '装备类别编号不能为空', trigger: 'blur' }
           ],
           zblbmc: [
-            { required: true, message: '不能为空', trigger: 'blur' }
+            { required: true, message: '装备类别名称不能为空', trigger: 'blur' }
           ],
           zbmcbh: [
             { required: true, message: '不能为空', trigger: 'blur' }
           ],
           zbmc: [
-            { required: true, message: '不能为空', trigger: 'blur' }
-/*          ],
-          zbslmax: [
-            { required: true, message: '不能为空', trigger: 'blur' }
+            { required: true, message: '装备名称不能为空', trigger: 'blur' }
           ],
-          zbslmin: [
-            { required: true, message: '不能为空', trigger: 'blur' }*/
+          bzpbsl: [
+            { required: true, message: '标准配备数量不能为空', trigger: 'blur' }
           ]
         }
       }
@@ -116,38 +104,37 @@
         }).then(({data}) => {
           this.xfzlbList = data.xfzlbList
         }).then(() => {
-            this.$http({
-              url: this.$http.adornUrl('/dic/zdzblbxxb/select'),
-              method: 'get'
-            }).then(({data}) => {
-              this.zblbList = data.zblbList
-            }).then(() => {
-              this.$nextTick(() => {
-                this.$refs['dataForm'].resetFields()
-                if (this.dataForm.id) {
-                  this.$http({
-                    url: this.$http.adornUrl(`/dic/zdxfzbzpbxxb/info/${this.dataForm.id}`),
-                    method: 'get',
-                    params: this.$http.adornParams()
-                  }).then(({data}) => {
-                    if (data && data.code === 0) {
-                      this.dataForm.xfzlbid = data.zdxfzbzpbxxb.xfzlbid
-                      this.dataForm.xfzlbmc = data.zdxfzbzpbxxb.xfzlbmc
-                      this.dataForm.zblbbh = data.zdxfzbzpbxxb.zblbbh
-                      this.dataForm.zblbmc = data.zdxfzbzpbxxb.zblbmc
-                      this.dataForm.zbmcbh = data.zdxfzbzpbxxb.zbmcbh
-                      this.dataForm.zbmc = data.zdxfzbzpbxxb.zbmc
-                      this.dataForm.zbslmax = data.zdxfzbzpbxxb.zbslmax
-                      this.dataForm.zbslmin = data.zdxfzbzpbxxb.zbslmin
-                      this.dataForm.bfzbsl = data.zdxfzbzpbxxb.bfzbsl
-                    }
-                  })
-                }
-              })
+          this.$http({
+            url: this.$http.adornUrl('/dic/zdzblbxxb/select'),
+            method: 'get'
+          }).then(({data}) => {
+            this.zblbList = data.zblbList
+          }).then(() => {
+            this.$nextTick(() => {
+              this.$refs['dataForm'].resetFields()
+              if (this.dataForm.id) {
+                this.$http({
+                  url: this.$http.adornUrl(`/dic/zdxfzgrpbxxb/info/${this.dataForm.id}`),
+                  method: 'get',
+                  params: this.$http.adornParams()
+                }).then(({data}) => {
+                  if (data && data.code === 0) {
+                    this.dataForm.xfzlbid = data.zdxfzgrpbxxb.xfzlbid
+                    this.dataForm.xfzlbmc = data.zdxfzgrpbxxb.xfzlbmc
+                    this.dataForm.zblbbh = data.zdxfzgrpbxxb.zblbbh
+                    this.dataForm.zblbmc = data.zdxfzgrpbxxb.zblbmc
+                    this.dataForm.zbmcbh = data.zdxfzgrpbxxb.zbmcbh
+                    this.dataForm.zbmc = data.zdxfzgrpbxxb.zbmc
+                    this.dataForm.bzpbsl = data.zdxfzgrpbxxb.bzpbsl
+                    this.dataForm.bzbfb = data.zdxfzgrpbxxb.bzbfb
+                    this.dataForm.bfzbsl = data.zdxfzgrpbxxb.bfzbsl
+                  }
+                })
+              }
             })
+          })
         })
       },
-
       //下拉框选中事件 消防站类别
       selectXfzlb(vId){//这个vId也就是value值
         let obj = {};
@@ -194,7 +181,6 @@
         obj = this.zbmcList.find((item) => {//这里的hymcDate就是上面遍历的数据源
           return item.label === vId;//筛选出匹配数据
         });
-
         this.dataForm.zbmcbh = obj.value
         this.dataForm.zbmc = obj.label
 
@@ -204,7 +190,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/dic/zdxfzbzpbxxb/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: this.$http.adornUrl(`/dic/zdxfzgrpbxxb/${!this.dataForm.id ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
@@ -214,8 +200,8 @@
                 'zblbmc': this.dataForm.zblbmc,
                 'zbmcbh': this.dataForm.zbmcbh,
                 'zbmc': this.dataForm.zbmc,
-                'zbslmax': this.dataForm.zbslmax,
-                'zbslmin': this.dataForm.zbslmin,
+                'bzpbsl': this.dataForm.bzpbsl,
+                'bzbfb': this.dataForm.bzbfb,
                 'bfzbsl': this.dataForm.bfzbsl
               })
             }).then(({data}) => {

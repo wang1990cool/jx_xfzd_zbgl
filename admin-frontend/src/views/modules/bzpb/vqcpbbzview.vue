@@ -2,18 +2,14 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.xfzlbmc" placeholder="消防站类别" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.zblbmc" placeholder="装备类型" clearable></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="dataForm.zbmc" placeholder="装备名称" clearable></el-input>
+        <el-input v-model="dataForm.ssbmmc" placeholder="部门名称" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('dic:zdxfzbzpbxxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+<!--
+        <el-button v-if="isAuth('bzpb:vqcpbbzview:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('bzpb:vqcpbbzview:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+-->
       </el-form-item>
     </el-form>
     <el-table
@@ -28,31 +24,23 @@
         align="center"
         width="50">
       </el-table-column>
-
-      <el-table-column
-        prop="xfzlbmc"
-        header-align="center"
-        align="center"
-        label="消防站类别">
-      </el-table-column>
-
       <el-table-column
         prop="zblbmc"
         header-align="center"
         align="center"
-        label="装备类型">
+        label="装备类别">
       </el-table-column>
-<!--      <el-table-column
-        prop="zbmcbh"
-        header-align="center"
-        align="center"
-        label="装备编号">
-      </el-table-column>-->
       <el-table-column
         prop="zbmc"
         header-align="center"
         align="center"
         label="装备名称">
+      </el-table-column>
+      <el-table-column
+        prop="zbslmin"
+        header-align="center"
+        align="center"
+        label="最小标准配备">
       </el-table-column>
 <!--      <el-table-column
         prop="zbslmax"
@@ -61,16 +49,29 @@
         label="最大标准配备">
       </el-table-column>-->
       <el-table-column
-        prop="zbslmin"
-        header-align="center"
-        align="center"
-        label="最小标准配备">
-      </el-table-column>
-      <el-table-column
         prop="bfzbsl"
         header-align="center"
         align="center"
-        label="备份数量">
+        label="备份标准配备">
+      </el-table-column>
+      <el-table-column
+        prop="bmmc"
+        header-align="center"
+        align="center"
+        label="部门名称">
+      </el-table-column>
+      <el-table-column
+        prop="zbsl"
+        header-align="center"
+        align="center"
+        label="当前库存">
+      </el-table-column>
+<!--
+      <el-table-column
+        prop="id"
+        header-align="center"
+        align="center"
+        label="">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -79,10 +80,11 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.zblbmc)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.zblbmc)">删除</el-button>
         </template>
       </el-table-column>
+-->
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -99,14 +101,12 @@
 </template>
 
 <script>
-  import AddOrUpdate from './zdxfzbzpbxxb-add-or-update'
+  import AddOrUpdate from './vqcpbbzview-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          xfzlbmc: '',
-          zblbmc: '',
-          zbmc: ''
+          ssbmmc: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -128,14 +128,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/list'),
+          url: this.$http.adornUrl('/bzpb/vqcpbbzview/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'xfzlbmc': this.dataForm.xfzlbmc,
-            'zblbmc': this.dataForm.zblbmc,
-            'zbmc': this.dataForm.zbmc
+            'ssbmmc': this.dataForm.ssbmmc
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -173,7 +171,7 @@
       // 删除
       deleteHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
-          return item.id
+          return item.zblbmc
         })
         this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
@@ -181,7 +179,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/dic/zdxfzbzpbxxb/delete'),
+            url: this.$http.adornUrl('/bzpb/vqcpbbzview/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
