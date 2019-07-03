@@ -11,10 +11,10 @@ import java.util.Date;
  * 
  * @author Wangcaner
  * @email wangcaner@outlook.com
- * @date 2019-07-01 09:07:30
+ * @date 2019-07-03 09:03:51
  */
-@TableName("jy_jrsqmxb")
-public class ZbJrsqmxbEntity implements Serializable {
+@TableName("jy_jczbb")
+public class JyJczbbEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -23,19 +23,11 @@ public class ZbJrsqmxbEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 申请单ID
+	 * 申请单id
 	 */
-	private String jrsqid;
+	private Long jrsqid;
 	/**
-	 * 
-	 */
-	private String zblbid;
-	/**
-	 * 装备类别
-	 */
-	private String zblbmc;
-	/**
-	 * 
+	 * 装备编号
 	 */
 	private String zbid;
 	/**
@@ -43,9 +35,13 @@ public class ZbJrsqmxbEntity implements Serializable {
 	 */
 	private String zbmc;
 	/**
-	 * 装备数量
+	 * 申请数量
 	 */
-	private Integer zbsl;
+	private int sqsl;
+	/**
+	 * 实际数量
+	 */
+	private int sjsl;
 
 	/**
 	 * 设置：
@@ -60,49 +56,25 @@ public class ZbJrsqmxbEntity implements Serializable {
 		return id;
 	}
 	/**
-	 * 设置：申请单ID
+	 * 设置：申请单id
 	 */
-	public void setJrsqid(String jrsqid) {
+	public void setJrsqid(Long jrsqid) {
 		this.jrsqid = jrsqid;
 	}
 	/**
-	 * 获取：申请单ID
+	 * 获取：申请单id
 	 */
-	public String getJrsqid() {
+	public Long getJrsqid() {
 		return jrsqid;
 	}
 	/**
-	 * 设置：
-	 */
-	public void setZblbid(String zblbid) {
-		this.zblbid = zblbid;
-	}
-	/**
-	 * 获取：
-	 */
-	public String getZblbid() {
-		return zblbid;
-	}
-	/**
-	 * 设置：装备类别
-	 */
-	public void setZblbmc(String zblbmc) {
-		this.zblbmc = zblbmc;
-	}
-	/**
-	 * 获取：装备类别
-	 */
-	public String getZblbmc() {
-		return zblbmc;
-	}
-	/**
-	 * 设置：
+	 * 设置：装备编号
 	 */
 	public void setZbid(String zbid) {
 		this.zbid = zbid;
 	}
 	/**
-	 * 获取：
+	 * 获取：装备编号
 	 */
 	public String getZbid() {
 		return zbid;
@@ -120,15 +92,27 @@ public class ZbJrsqmxbEntity implements Serializable {
 		return zbmc;
 	}
 	/**
-	 * 设置：装备数量
+	 * 设置：申请数量
 	 */
-	public void setZbsl(Integer zbsl) {
-		this.zbsl = zbsl;
+	public void setSqsl(Integer sqsl) {
+		this.sqsl = sqsl;
 	}
 	/**
-	 * 获取：装备数量
+	 * 获取：申请数量
 	 */
-	public Integer getZbsl() {
-		return zbsl;
+	public Integer getSqsl() {
+		return sqsl;
+	}
+	/**
+	 * 设置：实际数量
+	 */
+	public void setSjsl(int sjsl) {
+		this.sjsl = sjsl;
+	}
+	/**
+	 * 获取：实际数量
+	 */
+	public int getSjsl() {
+		return sjsl;
 	}
 }

@@ -19,12 +19,6 @@
       </el-form-item>
     </el-form>
 
-    <el-form >
-      <el-form-item style="margin-bottom: 5px">
-        <el-button v-if="isAuth('borrow:jrsq:save')" size="small" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('borrow:jrsq:delete')" size="small"  type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
-      </el-form-item>
-    </el-form>
 
     <el-table
       :data="dataList"
@@ -102,13 +96,10 @@
         fixed="right"
         header-align="center"
         align="center"
-        width="180"
+        width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9" type="text" size="small" @click="addOrUpdateHandle(scope.row.jrsqid,scope.row.id)">修改</el-button>
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9" type="text" size="small" @click="deleteHandle(scope.row.jrsqid)">删除</el-button>
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9 " type="text" size="small" @click="sumbitHandle(scope.row.id)">提交</el-button>
-          <el-button v-if="scope.row.ztm === 2" type="text" size="small" @click="withdrawHandle(scope.row.id)">撤回</el-button>
+          <el-button v-if="scope.row.ztm === 2" type="text" size="small" @click="auditHandle(scope.row.jrsqid,scope.row.id)">审核</el-button>
           <el-button type="text" size="small" @click="detailHandle(scope.row.jrsqid,scope.row.id)">详情</el-button>
         </template>
       </el-table-column>
@@ -123,13 +114,13 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <sh-jrsq-update v-if="updateVisible" ref="shJrsqUpdate" @refreshDataList="getDataList"></sh-jrsq-update>
     <jrsq-detail v-if="jrsqDetailVisible" ref="jrsqDetail"></jrsq-detail>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './jrsq-add-or-update'
+  import shJrsqUpdate from './shJrsq-update'
   import jrsqDetail from './jrsq-detail'
   let moment = require('moment');
   export default {
@@ -147,7 +138,7 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false,
+        updateVisible: false,
         jrsqDetailVisible: false,
         menuListTreeProps: {
           label: 'name',
@@ -156,7 +147,7 @@
       }
     },
     components: {
-      AddOrUpdate,
+      shJrsqUpdate,
       jrsqDetail
     },
     activated () {
@@ -167,7 +158,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/borrow/jrsq/list'),
+          url: this.$http.adornUrl('/borrow/shJrsq/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -217,102 +208,11 @@
           this.$refs.addOrUpdate.init(jrsqid, id);
         })
       },
-      // 删除
-      deleteHandle (jrsqid) {
-        var isAudit = false;
 
-        for (var i = 0; i < this.dataListSelections.length; i++) {
-          if (this.dataListSelections[i].ztm !== 1) {
-            isAudit = true;
-            break;
-          }
-        }
-
-        if (!isAudit) {
-          var jrsqids = jrsqid ? [jrsqid] : this.dataListSelections.map(item => {
-            return item.jrsqid
-          })
-          this.$confirm(`确定进行${jrsqid ? '删除' : '批量删除'}操作?`, '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$http({
-              url: this.$http.adornUrl('/borrow/jrsq/delete'),
-              method: 'post',
-              data: this.$http.adornData(jrsqids, false)
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.getDataList()
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          })
-        }else {
-          this.$message.error('请选择"草稿状态"的记录')
-        }
-      },
-
-      // 提交
-      sumbitHandle (id) {
-        this.$confirm('确定提交？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$http({
-            url: this.$http.adornUrl('/borrow/jrsq/submit'),
-            method: 'post',
-            data: this.$http.adornData(id, false)
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
-        })
-      },
-
-      withdrawHandle (id) {
-        this.$confirm('确定撤回？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$http({
-            url: this.$http.adornUrl('/borrow/jrsq/withdraw'),
-            method: 'post',
-            data: this.$http.adornData(id, false)
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
+      auditHandle (jrsqid, id) {
+        this.updateVisible = true
+        this.$nextTick(() => {
+          this.$refs.shJrsqUpdate.init(jrsqid, id)
         })
       },
 

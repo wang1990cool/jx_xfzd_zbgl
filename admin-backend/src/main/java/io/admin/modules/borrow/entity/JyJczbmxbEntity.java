@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
+ * 装备名称信息表
  * 
  * @author Wangcaner
  * @email wangcaner@outlook.com
- * @date 2019-07-01 09:07:30
+ * @date 2019-07-03 09:03:51
  */
-@TableName("jy_jrsqmxb")
-public class ZbJrsqmxbEntity implements Serializable {
+@TableName("jy_jczbmxb")
+public class JyJczbmxbEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -23,29 +23,25 @@ public class ZbJrsqmxbEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 申请单ID
-	 */
-	private String jrsqid;
-	/**
-	 * 
+	 * 类别编码
 	 */
 	private String zblbid;
 	/**
-	 * 装备类别
+	 * 类别名称
 	 */
 	private String zblbmc;
 	/**
-	 * 
+	 * 装备编码
 	 */
-	private String zbid;
+	private String zbbm;
 	/**
 	 * 装备名称
 	 */
 	private String zbmc;
 	/**
-	 * 装备数量
+	 * 状态
 	 */
-	private Integer zbsl;
+	private String zt;
 
 	/**
 	 * 设置：
@@ -60,52 +56,40 @@ public class ZbJrsqmxbEntity implements Serializable {
 		return id;
 	}
 	/**
-	 * 设置：申请单ID
-	 */
-	public void setJrsqid(String jrsqid) {
-		this.jrsqid = jrsqid;
-	}
-	/**
-	 * 获取：申请单ID
-	 */
-	public String getJrsqid() {
-		return jrsqid;
-	}
-	/**
-	 * 设置：
+	 * 设置：类别编码
 	 */
 	public void setZblbid(String zblbid) {
 		this.zblbid = zblbid;
 	}
 	/**
-	 * 获取：
+	 * 获取：类别编码
 	 */
 	public String getZblbid() {
 		return zblbid;
 	}
 	/**
-	 * 设置：装备类别
+	 * 设置：类别名称
 	 */
 	public void setZblbmc(String zblbmc) {
 		this.zblbmc = zblbmc;
 	}
 	/**
-	 * 获取：装备类别
+	 * 获取：类别名称
 	 */
 	public String getZblbmc() {
 		return zblbmc;
 	}
 	/**
-	 * 设置：
+	 * 设置：装备编码
 	 */
-	public void setZbid(String zbid) {
-		this.zbid = zbid;
+	public void setZbbm(String zbbm) {
+		this.zbbm = zbbm;
 	}
 	/**
-	 * 获取：
+	 * 获取：装备编码
 	 */
-	public String getZbid() {
-		return zbid;
+	public String getZbbm() {
+		return zbbm;
 	}
 	/**
 	 * 设置：装备名称
@@ -120,15 +104,15 @@ public class ZbJrsqmxbEntity implements Serializable {
 		return zbmc;
 	}
 	/**
-	 * 设置：装备数量
+	 * 设置：状态
 	 */
-	public void setZbsl(Integer zbsl) {
-		this.zbsl = zbsl;
+	public void setZt(String zt) {
+		this.zt = zt;
 	}
 	/**
-	 * 获取：装备数量
+	 * 获取：状态
 	 */
-	public Integer getZbsl() {
-		return zbsl;
+	public String getZt() {
+		return zt;
 	}
 }

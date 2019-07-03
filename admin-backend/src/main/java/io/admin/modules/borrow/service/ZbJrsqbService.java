@@ -16,5 +16,11 @@ import java.util.Map;
 public interface ZbJrsqbService extends IService<ZbJrsqbEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryPageSh(Map<String, Object> params);
+
+    void deleteByJrsqIds(String[] jrsqIds);
+
+
 }
 

@@ -11,6 +11,7 @@ import io.admin.common.utils.Query;
 import io.admin.modules.borrow.dao.ZbJrsqmxbDao;
 import io.admin.modules.borrow.entity.ZbJrsqmxbEntity;
 import io.admin.modules.borrow.service.ZbJrsqmxbService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("zbJrsqmxbService")
@@ -24,6 +25,13 @@ public class ZbJrsqmxbServiceImpl extends ServiceImpl<ZbJrsqmxbDao, ZbJrsqmxbEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteByJrsqIds(String[] jrsqIds) {
+        baseMapper.deleteByJrsqIds(jrsqIds);
+
     }
 
 }

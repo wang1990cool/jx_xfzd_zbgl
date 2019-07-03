@@ -1,7 +1,6 @@
 package io.admin.modules.borrow.controller;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.admin.modules.borrow.entity.ZbJrsqmxbEntity;
-import io.admin.modules.borrow.service.ZbJrsqmxbService;
+import io.admin.modules.borrow.entity.JyJczbbEntity;
+import io.admin.modules.borrow.service.JyJczbbService;
 import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 
@@ -24,20 +23,21 @@ import io.admin.common.utils.R;
  *
  * @author Wangcaner
  * @email wangcaner@outlook.com
- * @date 2019-07-01 09:07:30
+ * @date 2019-07-03 09:03:51
  */
 @RestController
-@RequestMapping("borrow/jrsqmx")
-public class ZbJrsqmxbController {
+@RequestMapping("borrow/jyjczbb")
+public class JyJczbbController {
     @Autowired
-    private ZbJrsqmxbService zbJrsqmxbService;
+    private JyJczbbService jyJczbbService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
+    @RequiresPermissions("borrow:jyjczbb:list")
     public R list(@RequestParam Map<String, Object> params){
-        List<ZbJrsqmxbEntity> page = zbJrsqmxbService.selectByMap(params);
+        PageUtils page = jyJczbbService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,19 +47,20 @@ public class ZbJrsqmxbController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    @RequiresPermissions("borrow:jyjczbb:info")
     public R info(@PathVariable("id") Long id){
-		ZbJrsqmxbEntity zbJrsqmxb = zbJrsqmxbService.selectById(id);
+		JyJczbbEntity jyJczbb = jyJczbbService.selectById(id);
 
-        return R.ok().put("zbJrsqmxb", zbJrsqmxb);
+        return R.ok().put("jyJczbb", jyJczbb);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("borrow:jrsqmx:save")
-    public R save(@RequestBody ZbJrsqmxbEntity zbJrsqmxb){
-		zbJrsqmxbService.insert(zbJrsqmxb);
+    @RequiresPermissions("borrow:jyjczbb:save")
+    public R save(@RequestBody JyJczbbEntity jyJczbb){
+		jyJczbbService.insert(jyJczbb);
 
         return R.ok();
     }
@@ -68,9 +69,9 @@ public class ZbJrsqmxbController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("borrow:jrsqmx:update")
-    public R update(@RequestBody ZbJrsqmxbEntity zbJrsqmxb){
-		zbJrsqmxbService.updateById(zbJrsqmxb);
+    @RequiresPermissions("borrow:jyjczbb:update")
+    public R update(@RequestBody JyJczbbEntity jyJczbb){
+		jyJczbbService.updateById(jyJczbb);
 
         return R.ok();
     }
@@ -79,10 +80,9 @@ public class ZbJrsqmxbController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("borrow:jrsqmx:delete")
+    @RequiresPermissions("borrow:jyjczbb:delete")
     public R delete(@RequestBody Long[] ids){
-		zbJrsqmxbService.deleteBatchIds(Arrays.asList(ids));
-
+		jyJczbbService.deleteBatchIds(Arrays.asList(ids));
 
         return R.ok();
     }

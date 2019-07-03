@@ -20,5 +20,12 @@
         <result property="jrsqid" column="jrsqid"/>
     </resultMap>
 
+    <delete id="deleteByJrsqIds">
+        delete from jy_jrsqb where jrsqid in
+        <foreach item="jrsqid" collection="array" open="(" separator="," close=")">
+            #{jrsqid}
+        </foreach>
+    </delete>
+
 
 </mapper>

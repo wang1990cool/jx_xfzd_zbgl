@@ -38,9 +38,32 @@
       }
     },
     created () {
-      // this.tableData = window.MOCK_DATA_LIST.slice(0, 6)
+
+      this.tableData = this.getDataList();
+    },
+
+    activated () {
+
+      this.tableData = this.getDataList();
     },
     methods: {
+      getDataList () {
+        this.dataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/borrow/jrsqmx/list'),
+          method: 'get'
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.tableData = data.page
+            // this.totalPage = data.page.totalCount
+          } else {
+            this.tableData = []
+            // this.totalPage = 0
+          }
+          this.dataListLoading = false
+        })
+      },
+
       editActivedEvent ({ row, column }, event) {
         console.log(`打开 ${column.title} 列编辑`)
       },
