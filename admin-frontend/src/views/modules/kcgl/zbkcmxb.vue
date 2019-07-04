@@ -28,13 +28,13 @@
         align="center"
         width="50">
       </el-table-column>
-<!--      <el-table-column
+      <el-table-column
         prop="zbbm"
         header-align="center"
         align="center"
-        label="装备编码">
-      </el-table-column>-->
-
+        label="装备编码"
+        width="100">
+      </el-table-column>
       <el-table-column
         prop="zbmc"
         header-align="center"
@@ -51,7 +51,8 @@
         prop="ssbmmc"
         header-align="center"
         align="center"
-        label="所属部门名称">
+        label="所属部门名称"
+        width="120">
       </el-table-column>
 <!--      <el-table-column
         prop="ztm"
@@ -83,7 +84,8 @@
         prop="ztxs"
         header-align="center"
         align="center"
-        label="状态">
+        label="状态"
+        width="50">
       </el-table-column>-->
       <el-table-column
         prop="zt"
@@ -101,7 +103,8 @@
         prop="xssbmmc"
         header-align="center"
         align="center"
-        label="现所属部门名称">
+        label="现所属部门名称"
+        width="130">
       </el-table-column>
 <!--      <el-table-column
         prop="bfrq"

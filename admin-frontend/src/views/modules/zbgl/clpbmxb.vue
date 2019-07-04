@@ -28,12 +28,12 @@
         align="center"
         width="50">
       </el-table-column>
-<!--      <el-table-column
+      <el-table-column
         prop="zbbm"
         header-align="center"
         align="center"
         label="装备编码">
-      </el-table-column>-->
+      </el-table-column>
 
       <el-table-column
         prop="zbmc"
