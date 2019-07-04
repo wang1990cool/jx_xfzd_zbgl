@@ -44,6 +44,8 @@ public class SysUserEntity implements Serializable {
 	@NotEmpty(message="单位不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String unit;
 
+	private long unitId;
+
 	/**
 	 * 盐
 	 */
@@ -52,8 +54,6 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 邮箱
 	 */
-	@NotNull(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
-	@Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
 	private String email;
 
 	/**
@@ -234,5 +234,13 @@ public class SysUserEntity implements Serializable {
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+
+	public long getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(long unitId) {
+		this.unitId = unitId;
 	}
 }
