@@ -28,9 +28,6 @@ public class ZbJrsqb_ghController {
     private ZbJrsqbService jrsqbService;
 
     @Autowired
-    private ZbJrsqmxbService jrsqmxService;
-
-    @Autowired
     private JyJczbmxbService jyJczbmxbService;
 
     @Autowired

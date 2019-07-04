@@ -26,6 +26,12 @@
       <!--<vxe-table-column field="zblbmc" title="装备类别"></vxe-table-column>-->
       <vxe-table-column field="zbbm" title="装备编码"></vxe-table-column>
       <vxe-table-column field="zbmc" title="装备名称" ></vxe-table-column>
+      <vxe-table-column field="zt" title="状态" >
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.zt === '借用'" size="small" type="success">借用</el-tag>
+          <el-tag v-if="scope.row.zt === '已归还'" size="small" type="primary">已归还</el-tag>
+        </template>
+      </vxe-table-column>
     </vxe-grid>
 
   </div>
@@ -59,7 +65,7 @@
         getDataListJcmx (jrsqid) {
           this.loading = true
           this.$http({
-            url: this.$http.adornUrl('/borrow/jczbmx/list'),
+            url: this.$http.adornUrl('/borrow/jczbmx/returnList'),
             method: 'get',
             params: {
               'jrsqid': jrsqid

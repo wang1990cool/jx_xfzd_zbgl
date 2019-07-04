@@ -90,7 +90,7 @@
         <el-tag v-if="scope.row.ztm === 2" size="small" type="primary">已提交</el-tag>
         <el-tag v-if="scope.row.ztm === 3" size="small" type="success">审核通过</el-tag>
         <el-tag v-if="scope.row.ztm === 4" size="small" type="primary">已领用</el-tag>
-         <el-tag v-if="scope.row.ztm === 5" size="small" type="info">全部归还</el-tag>
+        <el-tag v-if="scope.row.ztm === 5" size="small" type="info">全部归还</el-tag>
         <el-tag v-if="scope.row.ztm === 9" size="small" type="danger">审核不通过</el-tag>
       </template>
       </el-table-column>
