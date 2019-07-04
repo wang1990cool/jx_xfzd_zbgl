@@ -9,9 +9,9 @@
         <el-input v-model="dataForm.sqbmmc" placeholder="申请部门" clearable></el-input>
       </el-form-item>
 
-      <el-form-item>
-        <el-input v-model="dataForm.jcbmmc" placeholder="借出部门" clearable></el-input>
-      </el-form-item>
+      <!--<el-form-item>-->
+        <!--<el-input v-model="dataForm.jcbmmc" placeholder="借出部门" clearable></el-input>-->
+      <!--</el-form-item>-->
 
       <el-form-item>
         <el-button @click="getDataList()" icon="el-icon-zoom-in" type="primary" plain>查询</el-button>
@@ -21,8 +21,8 @@
 
     <el-form >
       <el-form-item style="margin-bottom: 5px">
-        <el-button v-if="isAuth('borrow:jrsq:save')" size="small" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('borrow:jrsq:delete')" size="small"  type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button size="small" type="primary" @click="receviceHandle()" :disabled="dataListSelections.length != 1">智能分配</el-button>
+        <el-button size="small" type="primary" @click="receviceScanHandle()" :disabled="dataListSelections.length != 1">扫码分配</el-button>
       </el-form-item>
     </el-form>
 
@@ -39,11 +39,11 @@
         width="50">
       </el-table-column>
       <!--<el-table-column-->
-        <!--prop="jrsqid"-->
-        <!--header-align="center"-->
-        <!--align="center"-->
-        <!--width="130"-->
-        <!--label="借用单编号">-->
+      <!--prop="jrsqid"-->
+      <!--header-align="center"-->
+      <!--align="center"-->
+      <!--width="130"-->
+      <!--label="借用单编号">-->
       <!--</el-table-column>-->
       <el-table-column
         prop="sqmc"
@@ -92,13 +92,12 @@
         width="100"
         label="状态">
         <template slot-scope="scope">
-        <el-tag v-if="scope.row.ztm === 1" size="small" type="warning">草稿状态</el-tag>
-        <el-tag v-if="scope.row.ztm === 2" size="small" type="primary">已提交</el-tag>
-        <el-tag v-if="scope.row.ztm === 3" size="small" type="success">审核通过</el-tag>
-        <el-tag v-if="scope.row.ztm === 4" size="small" type="primary">已领用</el-tag>
-          <el-tag v-if="scope.row.ztm === 5" size="small" type="info">全部归还</el-tag>
-        <el-tag v-if="scope.row.ztm === 9" size="small" type="danger">审核不通过</el-tag>
-      </template>
+          <el-tag v-if="scope.row.ztm === 1" size="small" type="warning">草稿状态</el-tag>
+          <el-tag v-if="scope.row.ztm === 2" size="small" type="primary">已提交</el-tag>
+          <el-tag v-if="scope.row.ztm === 3" size="small" type="success">审核通过</el-tag>
+          <el-tag v-if="scope.row.ztm === 4" size="small" type="primary">已领用</el-tag>
+          <el-tag v-if="scope.row.ztm === 9" size="small" type="danger">审核不通过</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -107,11 +106,8 @@
         width="180"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9" type="text" size="small" @click="addOrUpdateHandle(scope.row.jrsqid,scope.row.id)">修改</el-button>
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9" type="text" size="small" @click="deleteHandle(scope.row.jrsqid)">删除</el-button>
-          <el-button v-if="scope.row.ztm === 1 || scope.row.ztm === 9 " type="text" size="small" @click="sumbitHandle(scope.row.id)">提交</el-button>
-          <el-button v-if="scope.row.ztm === 2" type="text" size="small" @click="withdrawHandle(scope.row.id)">撤回</el-button>
-          <el-button type="text" size="small" @click="detailHandle(scope.row.jrsqid,scope.row.id)">详情</el-button>
+          <!--<el-button type="text" size="small" @click="receviceHandle(scope.row.jrsqid)">领用</el-button>-->
+          <el-button type="text" size="small" @click="detailZbHandle(scope.row.jrsqid)">装备详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -125,14 +121,16 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <jrsq-detail v-if="jrsqDetailVisible" ref="jrsqDetail"></jrsq-detail>
+    <jyjczb-receive v-if="jyjczbReceiveVisible" ref="jczbReceive" @refreshDataList="getDataList"></jyjczb-receive>
+    <jyjczb-receive-scan v-if="jyjczbReceiveScanVisible" ref="jczbReceiveScan" @refreshDataList="getDataList"></jyjczb-receive-scan>
+    <jyjczb-receive-detail v-if="jyjczbReceiveDetailVisible" ref="jczbReceiveDetail"></jyjczb-receive-detail>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './jrsq-add-or-update'
-  import jrsqDetail from './jrsq-detail'
+  import JyjczbReceive from './jyjczb-receive'
+  import JyjczbReceiveScan from './jyjczb-receive-scan'
+  import JyjczbReceiveDetail from './jyjczb-receive-detail'
   let moment = require('moment');
   export default {
     data () {
@@ -145,21 +143,19 @@
         dataList: [],
         pageIndex: 1,
         pageSize: 10,
-        order: '',
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
         addOrUpdateVisible: false,
-        jrsqDetailVisible: false,
-        menuListTreeProps: {
-          label: 'name',
-          children: 'children'
-        }
+        jyjczbReceiveVisible: false,
+        jyjczbReceiveScanVisible: false,
+        jyjczbReceiveDetailVisible:false
       }
     },
     components: {
-      AddOrUpdate,
-      jrsqDetail
+      JyjczbReceive,
+      JyjczbReceiveScan,
+      JyjczbReceiveDetail
     },
     activated () {
       this.getDataList()
@@ -169,15 +165,15 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/borrow/jrsq/list'),
+          url: this.$http.adornUrl('/borrow/jyjczb/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'order': this.order,
             'sqmc': this.dataForm.sqmc,
-            'sqbmmc': this.dataForm.sqbmmc,
-            'jcbmmc': this.dataForm.jcbmmc
+            'sqbmmc': this.dataForm.sqbmmc
+            // ,
+            // 'jcbmmc': this.dataForm.jcbmmc
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -190,7 +186,6 @@
           this.dataListLoading = false
         })
       },
-
       getDataAllList () {
         this.dataForm.sqmc = '';
         this.dataForm.sqbmmc = '';
@@ -212,68 +207,47 @@
       selectionChangeHandle (val) {
         this.dataListSelections = val
       },
-      // 新增 / 修改
-      addOrUpdateHandle (jrsqid, id) {
-        this.addOrUpdateVisible = true
+      // 领用
+      receviceHandle () {
+        var jrsqids = this.dataListSelections.map(item => {
+          return item.jrsqid
+        });
+        this.jyjczbReceiveVisible = true
         this.$nextTick(() => {
-          this.$refs.addOrUpdate.init(jrsqid, id);
+          this.$refs.jczbReceive.init(jrsqids[0])
+        })
+      },
+
+      receviceScanHandle () {
+        var jrsqids = this.dataListSelections.map(item => {
+          return item.jrsqid
+        });
+        this.jyjczbReceiveScanVisible = true
+        this.$nextTick(() => {
+          this.$refs.jczbReceiveScan.init(jrsqids[0])
+        })
+      },
+
+      detailZbHandle (jrsqid) {
+        this.jyjczbReceiveDetailVisible = true
+        this.$nextTick(() => {
+          this.$refs.jczbReceiveDetail.init(jrsqid)
         })
       },
       // 删除
-      deleteHandle (jrsqid) {
-        var isAudit = false;
-
-        for (var i = 0; i < this.dataListSelections.length; i++) {
-          if (this.dataListSelections[i].ztm !== 1) {
-            isAudit = true;
-            break;
-          }
-        }
-
-        if (!isAudit) {
-          var jrsqids = jrsqid ? [jrsqid] : this.dataListSelections.map(item => {
-            return item.jrsqid
-          })
-          this.$confirm(`确定进行${jrsqid ? '删除' : '批量删除'}操作?`, '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$http({
-              url: this.$http.adornUrl('/borrow/jrsq/delete'),
-              method: 'post',
-              data: this.$http.adornData(jrsqids, false)
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.getDataList()
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          })
-        }else {
-          this.$message.error('请选择"草稿状态"的记录')
-        }
-      },
-
-      // 提交
-      sumbitHandle (id) {
-        this.$confirm('确定提交？', '提示', {
+      deleteHandle (id) {
+        var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.id
+        })
+        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/borrow/jrsq/submit'),
+            url: this.$http.adornUrl('/borrow/jyjczbb/delete'),
             method: 'post',
-            data: this.$http.adornData(id, false)
+            data: this.$http.adornData(ids, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
@@ -290,47 +264,12 @@
           })
         })
       },
-
-      withdrawHandle (id) {
-        this.$confirm('确定撤回？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$http({
-            url: this.$http.adornUrl('/borrow/jrsq/withdraw'),
-            method: 'post',
-            data: this.$http.adornData(id, false)
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataList()
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
-        })
-      },
-
-      detailHandle (jrsqid, id) {
-        this.jrsqDetailVisible = true;
-        this.$nextTick(() => {
-          this.$refs.jrsqDetail.init(jrsqid, id)
-        })
-      },
-
       dateFormat: function (row, column) {
-        var date = row[column.property];
+        var date = row[column.property]
         if (date == undefined) {
-          return '';
+          return ''
         }
-        return moment(date).format('YYYY-MM-DD');
+        return moment(date).format('YYYY-MM-DD')
       }
     }
   }

@@ -392,7 +392,7 @@
 
       // 删除选中数据
       removeSelectedsHandle () {
-        var datas = this.$refs.xTable.removeSelecteds()
+       this.$refs.xTable.removeSelecteds()
       },
 
       // 获得表单数据

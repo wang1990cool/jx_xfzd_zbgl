@@ -31,7 +31,7 @@ public class ZbJrsqb_shController {
     @RequestMapping("/list")
     @RequiresPermissions("borrow:sh:jrsq:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = jrsqbService.queryPageSh(params);
+        PageUtils page = jrsqbService.queryPageByZtm(params, new String[]{"2"});
         return R.ok().put("page", page);
     }
 

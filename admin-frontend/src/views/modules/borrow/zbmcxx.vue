@@ -54,7 +54,7 @@
           tablePage: {
             total: 0,
             currentPage: 1,
-            pageSize: 10
+            pageSize: 8
           },
           tableColumn: [
             { type: 'selection', width: 50 },
@@ -70,7 +70,7 @@
           },
           dataList: [],
           pageIndex: 1,
-          pageSize: 10,
+          pageSize: 8,
           totalPage: 0,
           dataListLoading: false,
           dataListSelections: []
@@ -83,13 +83,14 @@
         },
         // 获取数据列表
         getDataList() {
+          // alert(this.totalPage.currentPage)
           this.loading = true
           this.$http({
             url: this.$http.adornUrl('/dic/zdzbmcxxb/list'),
             method: 'get',
             params: this.$http.adornParams({
-              'page': this.pageIndex,
-              'limit': this.totalPage.currentPage,
+              'page': this.tablePage.currentPage,
+              'limit': this.tablePage.pageSize,
               'zblbmc': this.dataForm.zblbmc,
               'zbmc': this.dataForm.zbmc
             })

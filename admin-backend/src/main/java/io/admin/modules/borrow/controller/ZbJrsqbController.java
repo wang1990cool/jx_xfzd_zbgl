@@ -41,6 +41,7 @@ public class ZbJrsqbController {
     @RequestMapping("/list")
     @RequiresPermissions("borrow:jrsq:list")
     public R list(@RequestParam Map<String, Object> params){
+        params.put("sqbmmc", ShiroUtils.getUserEntity().getUnit());
         PageUtils page = jrsqbService.queryPage(params);
 
         return R.ok().put("page", page);

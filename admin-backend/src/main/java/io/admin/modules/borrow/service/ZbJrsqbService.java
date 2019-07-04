@@ -17,10 +17,11 @@ public interface ZbJrsqbService extends IService<ZbJrsqbEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    PageUtils queryPageSh(Map<String, Object> params);
+    PageUtils queryPageByZtm(Map<String, Object> params,String[] ztm);
 
     void deleteByJrsqIds(String[] jrsqIds);
 
+    ZbJrsqbEntity selectByJrsqid(String jrsqid);
 
 }
 

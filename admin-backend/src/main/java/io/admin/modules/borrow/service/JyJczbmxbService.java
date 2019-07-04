@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import io.admin.common.utils.PageUtils;
 import io.admin.modules.borrow.entity.JyJczbmxbEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface JyJczbmxbService extends IService<JyJczbmxbEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<JyJczbmxbEntity> selectByJrsqidAndZt(String jrsqid, String[] zt);
 }
 

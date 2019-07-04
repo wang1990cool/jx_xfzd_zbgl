@@ -35,7 +35,7 @@ public class ZdZbmcxxbController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("dic:zdzbmcxxb:list")
+//    @RequiresPermissions("dic:zdzbmcxxb:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = zdZbmcxxbService.queryPage(params);
 

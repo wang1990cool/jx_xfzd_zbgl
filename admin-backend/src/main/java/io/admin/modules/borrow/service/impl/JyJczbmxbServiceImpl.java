@@ -1,6 +1,9 @@
 package io.admin.modules.borrow.service.impl;
 
+import io.admin.modules.borrow.entity.ZbJrsqbEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -24,6 +27,16 @@ public class JyJczbmxbServiceImpl extends ServiceImpl<JyJczbmxbDao, JyJczbmxbEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<JyJczbmxbEntity> selectByJrsqidAndZt(String jrsqid, String[] zt){
+        List<JyJczbmxbEntity> list = baseMapper.selectList(
+                new EntityWrapper<JyJczbmxbEntity>().
+                        eq("jrsqid", jrsqid).
+                        in("zt", zt)
+        );
+        return list;
     }
 
 }

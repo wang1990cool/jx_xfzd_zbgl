@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -41,8 +42,7 @@ public class ZbJrsqbServiceImpl extends ServiceImpl<ZbJrsqbDao, ZbJrsqbEntity> i
     }
 
     @Override
-    public PageUtils queryPageSh(Map<String, Object> params) {
-
+    public PageUtils queryPageByZtm(Map<String, Object> params,String[] ztm) {
         String sqmc = (String)params.get("sqmc");
         String sqbmmc = (String)params.get("sqbmmc");
         String jcbmmc = (String)params.get("jcbmmc");
@@ -53,17 +53,28 @@ public class ZbJrsqbServiceImpl extends ServiceImpl<ZbJrsqbDao, ZbJrsqbEntity> i
                         like(StringUtils.isNotBlank(sqmc), "sqmc", sqmc).
                         like(StringUtils.isNotBlank(sqbmmc), "sqbmmc", sqbmmc).
                         like(StringUtils.isNotBlank(jcbmmc), "jcbmmc", jcbmmc).
-                        in("ztm", new String[]{"2"})
+                        in("ztm", ztm)
         );
-
         return new PageUtils(page);
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteByJrsqIds(String[] jrsqIds) {
         baseMapper.deleteByJrsqIds(jrsqIds);
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ZbJrsqbEntity selectByJrsqid(String jrsqid){
+        List<ZbJrsqbEntity> list = baseMapper.selectList(
+                new EntityWrapper<ZbJrsqbEntity>().
+                        like("jrsqid", jrsqid)
+        );
+
+        return list.get(0);
     }
 
 

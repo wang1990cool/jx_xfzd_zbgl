@@ -3,7 +3,9 @@ package io.admin.modules.borrow.service;
 import com.baomidou.mybatisplus.service.IService;
 import io.admin.common.utils.PageUtils;
 import io.admin.modules.borrow.entity.JyJczbbEntity;
+import io.admin.modules.borrow.entity.ZbJrsqmxbEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,7 @@ import java.util.Map;
 public interface JyJczbbService extends IService<JyJczbbEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<JyJczbbEntity> selectByJrsqid(String jrsqid);
 }
 

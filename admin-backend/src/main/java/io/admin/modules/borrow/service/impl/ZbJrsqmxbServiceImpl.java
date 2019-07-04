@@ -1,6 +1,10 @@
 package io.admin.modules.borrow.service.impl;
 
+import io.admin.modules.borrow.entity.JyJczbmxbEntity;
+import io.admin.modules.borrow.entity.ZbJrsqbEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -32,6 +36,17 @@ public class ZbJrsqmxbServiceImpl extends ServiceImpl<ZbJrsqmxbDao, ZbJrsqmxbEnt
     public void deleteByJrsqIds(String[] jrsqIds) {
         baseMapper.deleteByJrsqIds(jrsqIds);
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public  List<ZbJrsqmxbEntity> selectByJrsqid(String jrsqid){
+        List<ZbJrsqmxbEntity> list = baseMapper.selectList(
+                new EntityWrapper<ZbJrsqmxbEntity>().
+                        like("jrsqid", jrsqid)
+        );
+
+        return list;
     }
 
 }

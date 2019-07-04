@@ -11,7 +11,9 @@
         <result property="zbmc" column="zbmc"/>
         <result property="sqsl" column="sqsl"/>
         <result property="sjsl" column="sjsl"/>
+        <result property="zblbid" column="zblbid"/>
+        <result property="zblbmc" column="zblbmc"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
-
-
 </mapper>
