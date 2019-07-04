@@ -84,8 +84,26 @@ public class RypbmxbController {
     @RequestMapping("/delete")
     @RequiresPermissions("zbgl:rypbmxb:delete")
     public R delete(@RequestBody Long[] ids){
-			zbKcmxbService.deleteBatchIds(Arrays.asList(ids));
+        zbKcmxbService.deleteBatchIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/giveback")
+    @RequiresPermissions("zbgl:rypbmxb:giveback")
+    public R giveback(@RequestBody Long[] ids){
+
+        for (int i =0;i<ids.length;i++){
+            Long id=ids[i];
+            ZbKcmxbEntity zbKcmxb=zbKcmxbService.selectById(id);
+            zbKcmxb.setZtm(1);
+            zbKcmxb.setZtxs("在库");
+            zbKcmxb.setZt(zbKcmxb.getXssbmmc());
+            zbKcmxbService.updateById(zbKcmxb);
+        }
         return R.ok();
     }
 

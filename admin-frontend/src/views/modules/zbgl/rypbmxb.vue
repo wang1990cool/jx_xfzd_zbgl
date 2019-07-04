@@ -10,7 +10,7 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('zbgl:rypbmxb:update')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('zbgl:rypbmxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('zbgl:rypbmxb:giveback')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量归还</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -25,12 +25,13 @@
         align="center"
         width="50">
       </el-table-column>
-<!--      <el-table-column
+      <el-table-column
         prop="zbbm"
         header-align="center"
         align="center"
-        label="装备编码">
-      </el-table-column>-->
+        label="装备编码"
+        width="100">
+      </el-table-column>
 
       <el-table-column
         prop="zbmc"
@@ -48,7 +49,8 @@
         prop="ssbmmc"
         header-align="center"
         align="center"
-        label="所属部门名称">
+        label="所属部门名称"
+        width="120">
       </el-table-column>
 <!--      <el-table-column
         prop="ztm"
@@ -80,7 +82,8 @@
         prop="ztxs"
         header-align="center"
         align="center"
-        label="状态">
+        label="状态"
+        width="70">
       </el-table-column>-->
       <el-table-column
         prop="zt"
@@ -130,17 +133,19 @@
         align="center"
         label="入库时间">
       </el-table-column>
-<!--      <el-table-column
+      <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
+          <el-button type="text" size="small" @click="backHandle(scope.row.id)">归还入库</el-button>
+<!--
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+-->
         </template>
-      </el-table-column>-->
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
@@ -226,6 +231,37 @@
           this.$refs.addOrUpdate.init(id)
         })
       },
+      // 归还入库
+      backHandle (id) {
+        var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.id
+        })
+        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '归还' : '批量归还'}]操作?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/zbgl/rypbmxb/giveback'),
+            method: 'post',
+            data: this.$http.adornData(ids, false)
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        })
+      },
+
       // 删除
       deleteHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
