@@ -114,6 +114,4 @@ public class JyJczbVo implements Serializable {
 		return jyJczbVo;
 	}
 
-
-
 }

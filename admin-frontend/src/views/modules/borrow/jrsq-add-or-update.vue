@@ -146,24 +146,18 @@
 
         //部门信息
         options: [{
-          id: '1',
+          id: '0',
           name: '雨山大队',
           nodes: [{
-            id: '2',
-            name: '雨山一中队'
-          }, {
-            id: '3',
-            name: '雨山二中队'
+            id: '1',
+            name: '雨山中队'
           }]
         }, {
           id: '4',
           name: '向山大队',
           nodes: [{
-            id: '5',
-            name: '向山一中队'
-          }, {
-            id: '6',
-            name: '向山二中队'
+            id: '2',
+            name: '向山中队'
           }]
         }],
         visible: false,

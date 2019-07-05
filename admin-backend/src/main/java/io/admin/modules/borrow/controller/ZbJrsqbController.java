@@ -64,7 +64,7 @@ public class ZbJrsqbController {
     @RequiresPermissions("borrow:jrsq:save")
     public R save(@RequestBody Map<String, Object> models){
         ZbJrsqbEntity jrsqEntity = JsonUtils.toBean(models.get("jrsq"), ZbJrsqbEntity.class);
-        Map<String,Object> jrsqmxMap =JsonUtils.toHashMap(models.get("jrsqmx"));
+        Map<String,Object> jrsqmxMap = JsonUtils.toHashMap(models.get("jrsqmx"));
         List<ZbJrsqmxbEntity> insertRecords = JsonUtils.toList(jrsqmxMap.get("insertRecords"),ZbJrsqmxbEntity.class);
         List<ZbJrsqmxbEntity> updateRecords = JsonUtils.toList(jrsqmxMap.get("updateRecords"),ZbJrsqmxbEntity.class);
 
@@ -111,7 +111,7 @@ public class ZbJrsqbController {
     @RequestMapping("/update")
     public R update(@RequestBody Map<String, Object> models){
         ZbJrsqbEntity jrsqEntity = JsonUtils.toBean(models.get("jrsq"), ZbJrsqbEntity.class);
-        Map<String,Object> jrsqmxMap =JsonUtils.toHashMap(models.get("jrsqmx"));
+        Map<String,Object> jrsqmxMap = JsonUtils.toHashMap(models.get("jrsqmx"));
 
         jrsqbService.updateById(jrsqEntity);
 
