@@ -33,8 +33,8 @@ public class ZbKcmxbServiceImpl extends ServiceImpl<ZbKcmxbDao, ZbKcmxbEntity> i
         Page<ZbKcmxbEntity> page = this.selectPage(
                 new Query<ZbKcmxbEntity>(params).getPage(),
                 new EntityWrapper<ZbKcmxbEntity>().
-                        like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
-                        like(StringUtils.isNotBlank(zbmc), "zblbmc", zbmc).
+                like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
+                like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc).
                         like(StringUtils.isNotBlank(xssbmmc), "xssbmmc", xssbmmc).
                         like(StringUtils.isNotBlank(ztxs), "ztxs", ztxs).
                         like(StringUtils.isNotBlank(zt), "zt", zt).

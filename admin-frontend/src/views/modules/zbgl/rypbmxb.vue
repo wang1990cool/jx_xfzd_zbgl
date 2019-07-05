@@ -10,7 +10,7 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('zbgl:rypbmxb:update')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('zbgl:rypbmxb:giveback')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量归还</el-button>
+        <el-button v-if="isAuth('zbgl:rypbmxb:giveback')" type="danger" @click="backHandle()" :disabled="dataListSelections.length <= 0">批量归还</el-button>
       </el-form-item>
     </el-form>
     <el-table
