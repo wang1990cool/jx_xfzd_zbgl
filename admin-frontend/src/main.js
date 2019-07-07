@@ -13,10 +13,13 @@ import { isAuth } from '@/utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 
+import dashboardCharts from './views/charts/dashboardCharts.js' // 驾驶舱图表
+
 window.$ = require('jointjs')
 Vue.use(ElementUI)
 Vue.use(VueCookie)
 Vue.use(VXETable)
+Vue.use(dashboardCharts)
 
 Vue.config.productionTip = false
 

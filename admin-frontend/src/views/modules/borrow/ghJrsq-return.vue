@@ -97,28 +97,31 @@
         },
 
         returnZb (jrsqid, zbbm) {
-          this.$http({
-            url: this.$http.adornUrl(`/borrow/ghJrsq/return`),
-            method: 'post',
-            data: {
-              jrsqid : jrsqid,
-              zbbm : zbbm
-            }
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.getDataListJcmx(jrsqid)
-                  this.$emit('refreshDataList')
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
+          if (zbbm.length != 0 ) {
+            this.$http({
+              url: this.$http.adornUrl(`/borrow/ghJrsq/return`),
+              method: 'post',
+              data: {
+                jrsqid : jrsqid,
+                zbbm : zbbm
+              }
+            }).then(({data}) => {
+              if (data && data.code === 0) {
+                this.$message({
+                  message: '操作成功',
+                  type: 'success',
+                  duration: 1500,
+                  onClose: () => {
+                    this.getDataListJcmx(jrsqid)
+                    this.$emit('refreshDataList')
+                  }
+                })
+              } else {
+                this.$message.error(data.msg)
+              }
+            })
+          }
+
         }
       }
     }
