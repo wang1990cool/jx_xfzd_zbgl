@@ -21,9 +21,13 @@ public class ZbKcxxbServiceImpl extends ServiceImpl<ZbKcxxbDao, ZbKcxxbEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+        String zbmc=(String)params.get("zbmc");
+        String ssbmmc=(String)params.get("ssbmmc");
         Page<ZbKcxxbEntity> page = this.selectPage(
                 new Query<ZbKcxxbEntity>(params).getPage(),
-                new EntityWrapper<ZbKcxxbEntity>()
+                new EntityWrapper<ZbKcxxbEntity>().
+                        like(StringUtils.isNotBlank(ssbmmc), "ssbmmc", ssbmmc).
+                        like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc)
         );
 
         return new PageUtils(page);
