@@ -37,7 +37,7 @@ const install = function(Vue) {
             })
           },
 
-          peiCharts: function (id) {
+          peiCharts: function (id, kcSize) {
             this.chart = echarts.init(document.getElementById(id));
             this.chart.clear();
 
@@ -60,18 +60,26 @@ const install = function(Vue) {
                   name: '装备数量',
                   type: 'pie',
                   radius : '55%',
-                  center: ['50%', '55%'],
+                  center: ['50%', '50%'],
                   data:[
-                    {value:335, name:'在车装备'},
-                    {value:810, name:'库房装备'},
-                    {value:234, name:'警用装备'},
+                    {value:kcSize[0], name:'库房装备'},
+                    {value:kcSize[1], name:'在车装备'},
+                    {value:kcSize[2], name:'警用装备'},
                   ],
                   itemStyle: {
                     emphasis: {
                       shadowBlur: 10,
                       shadowOffsetX: 0,
                       shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
+                    },
+                    // normal: {
+                    //   color: function(params) {
+                    //     var colorList = [
+                    //       '#00FFFF', '#00FF00', '#FFFF00', '#FF8C00', '#FF0000', '#FE8463'
+                    //     ]
+                    //     return colorList[params.dataIndex]
+                    //   }
+                    // }
                   }
                 }
               ]

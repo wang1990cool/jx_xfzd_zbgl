@@ -7,7 +7,7 @@
           <img src='./kc.png' style='width:55px; height:45px; margin-top:15px; margin-left: 60px'>
         </div>
         <div style="float:right;margin-top: 15px;padding-left: 80px;width:75%;text-align: left">
-          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">20010</h2>
+          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">{{kpi.zk}}</h2>
         </div>
       </div>
     </el-col>
@@ -17,7 +17,7 @@
           <img src='./car.png' style='width:55px; height:45px; margin-top:15px; margin-left: 60px'>
         </div>
         <div style="float:right;margin-top: 15px;padding-left: 80px;width:75%;text-align: left">
-          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">1001</h2>
+          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">{{kpi.zc}}</h2>
         </div>
       </div>
     </el-col>
@@ -27,7 +27,7 @@
           <img src='./people.png' style='width:55px; height:45px; margin-top:15px;margin-left: 60px'>
         </div>
         <div style="float:right;margin-top: 15px;padding-left: 80px;width:75%;text-align: left">
-          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">5000</h2>
+          <h2 style="color: #0e507c; height:8px; line-height:10px;margin-bottom: 0px;">{{kpi.zr}}</h2>
         </div>
       </div>
     </el-col>
@@ -38,11 +38,11 @@
     <el-col :span="16">
       <el-row>
         <el-col>
-          <div class="mapDiv">
-            <img class="img" src="./map.jpg"/>
-          </div>
-          <!--<div id="mapCharts" style="height: 565px; margin-top: -30px;margin-right: 10px">-->
+          <!--<div class="mapDiv">-->
+            <!--<img class="img" src="./map.jpg"/>-->
           <!--</div>-->
+          <div id="mapCharts" style="height: 565px; margin-top: -30px;margin-right: 10px">
+          </div>
         </el-col >
       </el-row>
     </el-col>
@@ -72,29 +72,51 @@
           <h2 style="margin-top: -5px;">按标准装配完成度:</h2>
         </el-col >
         <el-col :span="20">
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="90"></el-progress>
+          <el-progress color="#01A9DB" :stroke-width="15" :percentage="completeness"></el-progress>
         </el-col>
       </el-row>
     </el-col>
   </el-row>
 
-
   <el-row style="margin-top: -70px;">
-    <el-col :span="24">
-      <el-form :inline="true" >
-        <el-form-item label="装备名称:" style="margin-top: -30px;margin-bottom: -20px;" >
-        <el-input placeholder="装备编号" clearable size="primary" style="width: 100%"> </el-input>
-      </el-form-item>
-        <el-form-item style="margin-top: -30px;margin-bottom: -20px;" >
-          <el-button @click="getDataList()" icon="el-icon-zoom-in" type="primary" plain>查询</el-button>
+    <el-col :span="4">
+      <h2 style="margin-top: -20px;">装备名称:</h2>
+    </el-col>
+    <el-col :span="20">
+      <el-form>
+        <el-form-item  style="margin-top: -30px;margin-bottom: -20px;" >
+          <el-input v-model="search.zbmc" placeholder="装备名称" clearable size="primary" style="width: 100%"> </el-input>
         </el-form-item>
       </el-form>
     </el-col>
   </el-row>
 
-  <el-row style="margin-top: -30px;">
+  <el-row style="height: 10px">
+    <el-col :span="4">
+      <h2 style="margin-top: -20px;">异常状态检索:</h2>
+    </el-col>
+    <el-col :span="20" style="margin-top: -18px;">
+        <template>
+          <el-checkbox-group v-model="search.checkList" @change="checkChange()">
+            <el-checkbox key="1" label="1">装配标准不足</el-checkbox>
+            <el-checkbox key="2" label="2">备用标准不足</el-checkbox>
+            <el-checkbox key="3" label="3">装备使用超时</el-checkbox>
+          </el-checkbox-group>
+        </template>
+    </el-col>
+  </el-row>
+
+  <el-row  style="margin-top: -80px;">
+    <el-col :span="24">
+      <div style="text-align:center;">
+          <el-button @click="getDataList()"  icon="el-icon-search" type="danger">查询</el-button>
+      </div>
+    </el-col>
+  </el-row>
+
+  <el-row style="margin-top: -20px;">
     <el-col :span=24>
-      <div  class="commonDiv">
+      <div>
         <vxe-table
           ref="xTable"
           border
@@ -121,37 +143,72 @@
 
 <script>
   export default {
-    name: "dashboardCharts",
     data () {
       return {
         kpi: {
           zk: '',
           zc: '',
           zr: ''
-        }
+        },
+        tableData: [],
+        search: {
+          zbmc: '',
+          checkList: []
+        },
+        completeness: 90
       }
     },
     mounted () {
-      this.$chart.peiCharts('pieCharts');
-      this.$chart.mapCharts('mapCharts');
+      this.initPeiCharts()
+      this.$chart.mapCharts('mapCharts')
+      this.initKpi()
     },
     methods: {
-      initKpi() {
+      initKpi () {
         this.$http({
-          url: this.$http.adornUrl(`/borrow/zbjrsqmxb/info/${this.dataForm.id}`),
+          url: this.$http.adornUrl('/sys/dashboard/kcSize'),
           method: 'get',
           params: this.$http.adornParams()
         }).then(({data}) => {
           if (data && data.code === 0) {
-            this.dataForm.jrsqid = data.zbjrsqmxb.jrsqid
-            this.dataForm.zblbid = data.zbjrsqmxb.zblbid
-            this.dataForm.zblbmc = data.zbjrsqmxb.zblbmc
-            this.dataForm.zbid = data.zbjrsqmxb.zbid
-            this.dataForm.zbmc = data.zbjrsqmxb.zbmc
-            this.dataForm.zbsl = data.zbjrsqmxb.zbsl
+            this.kpi.zk = data.kc[0]
+            this.kpi.zc = data.kc[1]
+            this.kpi.zr = data.kc[2]
           }
         })
+      },
+
+      initPeiCharts () {
+        this.$http({
+          url: this.$http.adornUrl('/sys/dashboard/kcSize'),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.$chart.peiCharts('pieCharts', data.kc)
+          }
+        })
+      },
+
+      getDataList () {
+        this.loading = true
+        this.$http({
+          url: this.$http.adornUrl('/sys/dashboard/zblist'),
+          method: 'get',
+          params: {
+            'zbmc': this.search.zbmc,
+            'yc': this.search.checkList.toString()
+          }
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.tableData = data.data
+          } else {
+            this.tableData = []
+          }
+          this.loading = false
+        })
       }
+
     }
   }
 </script>
