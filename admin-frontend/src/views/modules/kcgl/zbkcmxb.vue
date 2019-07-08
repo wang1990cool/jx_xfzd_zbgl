@@ -13,7 +13,7 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('kcgl:zbkcmxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('kcgl:zbkcmxb:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button  type="danger" @click="printHandle()" :disabled="dataListSelections.length <= 0">批量打印条码</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -85,8 +85,9 @@
         header-align="center"
         align="center"
         label="状态"
-        width="50">
-      </el-table-column>-->
+        width="80">
+      </el-table-column>
+
       <el-table-column
         prop="zt"
         header-align="center"
@@ -144,7 +145,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
-
+          <el-button type="text" size="small" @click="printHandle(scope.row.id)">打印条码</el-button>
 <!--
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
 -->
@@ -236,6 +237,42 @@
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
         })
+      },
+        //打印
+      printHandle (id) {
+        var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.id
+        })
+        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '打印' : '批量打印'}]操作?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/kcgl/zbkcmxb/print'),
+            method: 'post',
+            data: this.$http.adornData(ids, false)
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        })
+        /*this.$http({
+          url: this.$http.adornUrl('/kcgl/zbkcmxb/print'),
+          method: 'post',
+          data: this.$http.adornData(id, false)
+        }).then(({data}) => {
+        })*/
       },
       // 删除
       deleteHandle (id) {

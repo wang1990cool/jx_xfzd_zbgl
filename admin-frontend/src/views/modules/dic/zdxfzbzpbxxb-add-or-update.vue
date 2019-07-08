@@ -32,13 +32,13 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="最大配备" prop="zbslmax">
+    <el-form-item label="最大配备" prop="zbslmax" hidden="true">
       <el-input-number v-model="dataForm.zbslmax"  :min="0"  label="最大配备"></el-input-number>
 <!--
       <el-input v-model="dataForm.zbslmax" placeholder=""></el-input>
 -->
     </el-form-item>
-    <el-form-item label="最小配备" prop="zbslmin" hidden="true">
+    <el-form-item label="最小配备" prop="zbslmin">
 <!--
       <el-input v-model="dataForm.zbslmin" placeholder=""></el-input>
 -->

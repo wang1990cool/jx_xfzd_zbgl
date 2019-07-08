@@ -54,7 +54,7 @@
           zblbmc: '',
           zbid: '',
           zbmc: '',
-          bfzq: -1,
+          bfzq: '',
           byzq: '',
           bz: '',
           createUserId: '',
