@@ -4,31 +4,37 @@
  */
 
 import echarts from 'echarts'
+
+import {
+  BaiduMap
+} from './map.js';
+
 const install = function(Vue) {
   Object.defineProperties(Vue.prototype, {
     $chart: {
       get () {
         return {
           mapCharts: function (id) {
-            var map = new BMap.Map(id);  // 创建Map实例
-            var point = new BMap.Point(118.527055,31.669013);
-            // map.centerAndZoom("马鞍山", 20);
+            BaiduMap.init().then(BMap => {
+              var map = new BMap.Map(id);  // 创建Map实例
+              var point = new BMap.Point(118.527055,31.669013);
+              // map.centerAndZoom("马鞍山", 20);
 
-            map.centerAndZoom(point, 18);
+              map.centerAndZoom(point, 18);
 
-            var marker = new BMap.Marker(point);  // 创建标注
-            map.addOverlay(marker);
-            marker.setLabel("雨山大队");
+              var marker = new BMap.Marker(point);  // 创建标注
+              map.addOverlay(marker);
+              marker.setLabel("雨山大队");
 
-            // //添加地图类型控件
-            map.addControl(new BMap.MapTypeControl({
-              mapTypes:[
-                BMAP_NORMAL_MAP,
-                BMAP_HYBRID_MAP
-              ]}));
+              // //添加地图类型控件
+              map.addControl(new BMap.MapTypeControl({
+                mapTypes:[
+                  BMAP_NORMAL_MAP,
+                  BMAP_HYBRID_MAP
+                ]}));
 
-            map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-
+              map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+            })
           },
 
           peiCharts: function (id) {
@@ -79,5 +85,8 @@ const install = function(Vue) {
 }
 
 export default {
-  install
+  install,
+  components: {
+    BaiduMap
+  }
 }

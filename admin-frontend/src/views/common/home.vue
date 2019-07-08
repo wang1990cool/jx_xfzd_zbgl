@@ -121,11 +121,34 @@
     name: "dashboardCharts",
     data () {
       return {
+        kpi: {
+          zk: '',
+          zc: '',
+          zr: ''
+        }
       }
     },
     mounted () {
       this.$chart.peiCharts('pieCharts');
       this.$chart.mapCharts('mapCharts');
+    },
+    methods: {
+      initKpi() {
+        this.$http({
+          url: this.$http.adornUrl(`/borrow/zbjrsqmxb/info/${this.dataForm.id}`),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.dataForm.jrsqid = data.zbjrsqmxb.jrsqid
+            this.dataForm.zblbid = data.zbjrsqmxb.zblbid
+            this.dataForm.zblbmc = data.zbjrsqmxb.zblbmc
+            this.dataForm.zbid = data.zbjrsqmxb.zbid
+            this.dataForm.zbmc = data.zbjrsqmxb.zbmc
+            this.dataForm.zbsl = data.zbjrsqmxb.zbsl
+          }
+        })
+      }
     }
   }
 </script>
