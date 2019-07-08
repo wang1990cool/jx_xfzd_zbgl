@@ -38,8 +38,11 @@
     <el-col :span="16">
       <el-row>
         <el-col>
-          <div id="mapCharts" style="height: 565px; margin-top: -30px;margin-right: 10px">
+          <div class="mapDiv">
+            <img class="img" src="./map.jpg"/>
           </div>
+          <!--<div id="mapCharts" style="height: 565px; margin-top: -30px;margin-right: 10px">-->
+          <!--</div>-->
         </el-col >
       </el-row>
     </el-col>

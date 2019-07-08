@@ -57,7 +57,7 @@ const install = function(Vue) {
               // },
               series : [
                 {
-                  name: '访问来源',
+                  name: '装备数量',
                   type: 'pie',
                   radius : '55%',
                   center: ['50%', '55%'],
