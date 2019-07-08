@@ -171,6 +171,9 @@
     margin-left: 20px;
     margin-top: -25px;
   }
+  .mapDiv{
+    height: 550px;
+  }
   .el-row {
     margin-bottom: 40px;
     &:last-child {
