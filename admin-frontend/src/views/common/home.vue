@@ -99,7 +99,7 @@
         <template>
           <el-checkbox-group v-model="search.checkList" @change="checkChange()">
             <el-checkbox key="1" label="1">装配标准不足</el-checkbox>
-            <el-checkbox key="2" label="2">备用标准不足</el-checkbox>
+            <!--<el-checkbox key="2" label="2">备用标准不足</el-checkbox>-->
             <el-checkbox key="3" label="3">装备使用超时</el-checkbox>
           </el-checkbox-group>
         </template>
@@ -128,10 +128,10 @@
           <vxe-table-column field="jrsqid" title="大队名称"></vxe-table-column>
           <vxe-table-column field="zblbid" title="装备名称" ></vxe-table-column>
           <vxe-table-column field="zblbmc" title="装备数量"></vxe-table-column>
-          <vxe-table-column field="zbid" title="标准数量" ></vxe-table-column>
-          <vxe-table-column field="zbmc" title="备用数量" ></vxe-table-column>
-          <vxe-table-column field="zbsl" title="标准备用数量"></vxe-table-column>
-          <vxe-table-column field="zbsl" title="有效期"></vxe-table-column>
+          <vxe-table-column field="zbid" title="最小标准配备" ></vxe-table-column>
+          <vxe-table-column field="zbmc" title="备份标准配备" ></vxe-table-column>
+          <vxe-table-column field="zbmc" title="当前库存" ></vxe-table-column>
+          <!--<vxe-table-column field="zbsl" title="有效期"></vxe-table-column>-->
         </vxe-table>
       </div>
     </el-col>

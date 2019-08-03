@@ -5,6 +5,8 @@ import io.admin.common.utils.PageUtils;
 import io.admin.common.utils.R;
 import io.admin.common.utils.ShiroUtils;
 import io.admin.modules.borrow.service.JyJczbmxbService;
+import io.admin.modules.bzpb.qcpb.entity.VqcpbbzviewEntity;
+import io.admin.modules.bzpb.qcpb.service.VqcpbbzviewService;
 import io.admin.modules.kcgl.kcmx.entity.ZbKcmxbEntity;
 import io.admin.modules.kcgl.kcmx.service.ZbKcmxbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class DashboardController {
 
     @Autowired
     private ZbKcmxbService zbKcmxbService;
+
+    @Autowired
+    private VqcpbbzviewService vqcpbbzviewService;
 
     @GetMapping("/kcSize")
     public R kcSize(){
@@ -55,12 +60,17 @@ public class DashboardController {
     @RequestMapping("/zblist")
     public R zbList(@RequestParam Map<String, Object> params) {
         // 异常状态信息
-        String ycZt = (String) params.get("yc");
-        if (ycZt != null) {
-            String[] yc = ycZt.split(",");
+        String yc = (String) params.get("yc");
+        String[] yczt = null;
+        if (yc != null) {
+           yczt = yc.split(",");
         }
 
-        return R.ok();
+        String zbmc = (String) params.get("zbmc");
+
+        List<VqcpbbzviewEntity> list =  vqcpbbzviewService.selectByZbmcAndYczt(zbmc, yczt);
+
+        return R.ok().put("data", list);
     }
 
 }

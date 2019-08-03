@@ -1,7 +1,10 @@
 package io.admin.modules.bzpb.qcpb.service.impl;
 
+import io.admin.modules.borrow.entity.JyJczbmxbEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -27,6 +30,15 @@ public class VqcpbbzviewServiceImpl extends ServiceImpl<VqcpbbzviewDao, Vqcpbbzv
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<VqcpbbzviewEntity> selectByZbmcAndYczt(String zbmc, String[] yczt){
+        List<VqcpbbzviewEntity> list = baseMapper.selectList(
+                new EntityWrapper<VqcpbbzviewEntity>().
+                        eq("zbmc", zbmc)
+        );
+        return list;
     }
 
 }

@@ -186,7 +186,7 @@ public class JyJczbbController {
         // 领用单
         List<JyJczbbEntity> jyJczbList = jyJczbbService.selectByMap(params);
         // 在库装备明细
-        List<List<ZbKcmxbEntity>> kcmxs = this.getKcmxs(jrsqmxList);
+        List<List<ZbKcmxbEntity>> kcmxs = this.getKcmxs(jrsqmxList, jrsq);
 
         List<JyJczbVo> jyJczbVoList = new ArrayList<>();
 
@@ -217,14 +217,15 @@ public class JyJczbbController {
     /**
      * 根据借用单中的装备ID 获得在库的装备List
      */
-    public List<List<ZbKcmxbEntity>> getKcmxs(List<ZbJrsqmxbEntity> jrsqmxbEntityList ){
+    public List<List<ZbKcmxbEntity>> getKcmxs(List<ZbJrsqmxbEntity> jrsqmxbEntityList, ZbJrsqbEntity jrsq){
         List<List<ZbKcmxbEntity>> lists = new ArrayList<>();
 
         for (ZbJrsqmxbEntity jrsqmxbEntity : jrsqmxbEntityList){
             List<ZbKcmxbEntity> kcmxbEntityList = zbKcmxbService.selectList(
                     new EntityWrapper<ZbKcmxbEntity>().
                             eq("zbid", jrsqmxbEntity.getZbid()).
-                            eq("ztxs", "在库")
+                            eq("ztxs", "在库").
+                            eq("szbmmc", jrsq.getJcbmmc())
             );
             lists.add(kcmxbEntityList);
         }

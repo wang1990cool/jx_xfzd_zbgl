@@ -3,6 +3,7 @@ package io.admin.modules.borrow.controller;
 import java.util.*;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import io.admin.common.enums.KcztEnum;
 import io.admin.common.utils.JsonUtils;
 import io.admin.common.utils.ShiroUtils;
 import io.admin.modules.borrow.entity.JyJczbbEntity;
@@ -138,8 +139,8 @@ public class JyJczbmxbController {
 
                 List<ZbKcmxbEntity> kcmxList = zbKcmxbService.selectByMap(map);
                 ZbKcmxbEntity kcmx = kcmxList.get(0);
-                kcmx.setZt("4");
-                kcmx.setZtxs("借出");
+                kcmx.setZtm(KcztEnum.JC.getCode());
+                kcmx.setZtxs(KcztEnum.JC.getName());
                 kcmx.setXssbmid( jrsqb.getJcbmid());
                 kcmx.setXssbmmc( jrsqb.getJcbmmc());
 
