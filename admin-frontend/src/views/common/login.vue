@@ -3,7 +3,7 @@
     <div class="site-content__wrapper">
       <div class="site-content">
         <div class="brand-info">
-          <h2 class="brand-info__text">消防支队装备管理系统</h2>
+          <h2 class="brand-info__text">雨山消防中队智能装备管理系统</h2>
           <p class="brand-info__intro"></p>
         </div>
         <div class="login-main">

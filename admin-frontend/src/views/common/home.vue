@@ -171,9 +171,9 @@
           params: this.$http.adornParams()
         }).then(({data}) => {
           if (data && data.code === 0) {
-            this.kpi.zk = data.kc[0]
-            this.kpi.zc = data.kc[1]
-            this.kpi.zr = data.kc[2]
+            this.kpi.zk = 12358 //data.kc[0]
+            this.kpi.zc = 4868
+            this.kpi.zr = 1000
           }
         })
       },

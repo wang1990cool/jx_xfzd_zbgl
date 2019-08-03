@@ -13,7 +13,7 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button v-if="isAuth('kcgl:zbkcmxb:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button  type="danger" @click="printHandle()" :disabled="dataListSelections.length <= 0">批量打印条码</el-button>
+        <el-button  type="danger" @click="batchprintHandle()" :disabled="dataListSelections.length <= 0">批量打印条码</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -145,7 +145,8 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">查看</el-button>
-          <el-button type="text" size="small" @click="printHandle(scope.row.id)">打印条码</el-button>
+          <el-button type="text" size="small" @click="printHandle(scope.row.zbbm,scope.row.ssbmmc,scope.row.zbmc)">打印条码</el-button>
+
 <!--
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
 -->
@@ -168,6 +169,9 @@
 
 <script>
   import AddOrUpdate from './zbkcmxb-add-or-update'
+//  import {getLodop} from '../../lodop/LodopFuncs'
+  import {getLodop} from './lodop'
+
   export default {
     data () {
       return {
@@ -238,7 +242,53 @@
           this.$refs.addOrUpdate.init(id)
         })
       },
+      printtestHandle (id, ssbmmc, zbmc) {
+        var LODOP = getLodop()
+       LODOP.PRINT_INIT("采购单")
+/*        LODOP.ADD_PRINT_TEXT(50, 231, 260, 39, "打印内容")
+        LODOP.PREVIEW()*/
+/*          let printStr = `<div>姓名：张三</div>
+					<div>年龄：20</div>
+					<div>电话：13865559299</div>`*/
+//        LODOP.SET_PRINT_PAGESIZE(1,560,350,)
+          LODOP.NewPage();//创建新的页，实现多页打印
+//        LODOP.SET_PRINT_PAGESIZE(1,document.getElementById('W1').value,document.getElementById('H1').value,"A3");
+          //因为对边缘没啥要求，直接根据内容来居中
+        LODOP.SET_PRINT_PAGESIZE(1,650,350,)
+//        LODOP.SET_PRINT_STYLEA(2,"FontSize",20);
+        LODOP.ADD_PRINT_BARCODE(15,30,200,70,"128A",id)
+        LODOP.ADD_PRINT_TEXT(95,30,200,40,ssbmmc + " " +  zbmc)
+        LODOP.SET_PRINT_STYLEA(2,"FontSize",11);
+/*        LODOP.NewPage();
+        LODOP.ADD_PRINT_BARCODE(15,30,200,70,"128A",id)
+        LODOP.ADD_PRINT_TEXT(95,30,200,40,ssbmmc + "  " +  zbmc)
+        LODOP.SET_PRINT_STYLEA(4,"FontSize",12);*/
+
+          if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
+            LODOP.PRINT()
+ //                      LODOP.PREVIEW()
+          }
+
+      },
         //打印
+      printHandle (id, ssbmmc, zbmc) {
+        var LODOP = getLodop()
+        LODOP.PRINT_INIT("消防装备")
+        LODOP.NewPage();//创建新的页，实现多页打印
+        //因为对边缘没啥要求，直接根据内容来居中
+        LODOP.SET_PRINT_PAGESIZE(1,650,350,)
+        LODOP.ADD_PRINT_BARCODE(15,30,200,70,"128A",id)
+        LODOP.ADD_PRINT_TEXT(95,30,200,40,ssbmmc + " " +  zbmc)
+        LODOP.SET_PRINT_STYLEA(2,"FontSize",11);
+
+
+        if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
+          LODOP.PRINT()
+//                      LODOP.PREVIEW()
+        }
+
+      },
+/*
       printHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.id
@@ -267,12 +317,49 @@
             }
           })
         })
-        /*this.$http({
+        /!*this.$http({
           url: this.$http.adornUrl('/kcgl/zbkcmxb/print'),
           method: 'post',
           data: this.$http.adornData(id, false)
         }).then(({data}) => {
-        })*/
+        })*!/
+      },
+*/
+      //批量打印
+      batchprintHandle () {
+        var LODOP = getLodop()
+        LODOP.PRINT_INIT("消防装备")
+
+        for (var i = 0; i<this.dataListSelections.length; i++ ){
+          var zbbm = (this.dataListSelections[i])['zbbm']
+          var ssbmmc = (this.dataListSelections[i])['ssbmmc']
+          var zbmc = (this.dataListSelections[i])['zbmc']
+          LODOP.NewPage();//创建新的页，实现多页打印
+          LODOP.SET_PRINT_PAGESIZE(1,650,350,)
+          LODOP.ADD_PRINT_BARCODE(15,30,200,70,"128A",zbbm)
+          LODOP.ADD_PRINT_TEXT(95,30,200,40,ssbmmc + " " +  zbmc)
+          LODOP.SET_PRINT_STYLEA(2 + 2*i,"FontSize",11)
+        }
+        if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
+          LODOP.PRINT()
+        }
+
+/*
+        var LODOP = getLodop()
+        LODOP.PRINT_INIT("消防装备")
+        LODOP.NewPage();//创建新的页，实现多页打印
+        //因为对边缘没啥要求，直接根据内容来居中
+        LODOP.SET_PRINT_PAGESIZE(1,650,350,)
+        LODOP.ADD_PRINT_BARCODE(15,30,200,70,"128A",id)
+        LODOP.ADD_PRINT_TEXT(95,30,200,40,ssbmmc + " " +  zbmc)
+        LODOP.SET_PRINT_STYLEA(2,"FontSize",11);
+
+
+        if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
+          LODOP.PRINT()
+        }
+*/
+
       },
       // 删除
       deleteHandle (id) {
