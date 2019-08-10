@@ -56,6 +56,15 @@
         label="装备名称">
       </el-table-column>
       <el-table-column
+        header-align="center"
+        align="center"
+        width="80"
+        label="证书照片">
+        <template slot-scope="scope">
+          <el-button   type="text" size="small" @click="zbzpHandle(scope.row.id)">装备图片 </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="bfzq"
         header-align="center"
         align="center"
@@ -91,11 +100,13 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <zbzp v-if="zbzpVisible" ref="zbzp" @refreshDataList="getDataList"></zbzp>
   </div>
 </template>
 
 <script>
   import AddOrUpdate from './zdzbmcxxb-add-or-update'
+  import Zbzp from './zdzbmcxxb-zszp.vue'
   export default {
     data () {
       return {
@@ -109,11 +120,13 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false
+        addOrUpdateVisible: false,
+        zbzpVisible: false
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      Zbzp
     },
     activated () {
       this.getDataList()
@@ -156,6 +169,13 @@
       // 多选
       selectionChangeHandle (val) {
         this.dataListSelections = val
+      },
+      //查看照片
+      zbzpHandle (id) {
+        this.zbzpVisible = true
+        this.$nextTick(() => {
+          this.$refs.zbzp.init(id)
+        })
       },
       // 新增 / 修改
       addOrUpdateHandle (id) {

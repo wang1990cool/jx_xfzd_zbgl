@@ -59,6 +59,44 @@ public class ZdZbmcxxbEntity implements Serializable {
 	 */
 	private Date createTime;
 
+
+
+	/**
+	 * 装备照片
+	 */
+	private byte[] zbzp;
+
+	/**
+	 * 证书照片存放名称
+	 */
+	private String zppath;
+
+	public String getZbjs() {
+		return zbjs;
+	}
+
+	public void setZbjs(String zbjs) {
+		this.zbjs = zbjs;
+	}
+
+	private String zbjs;
+
+	public String getZppath() {
+		return zppath;
+	}
+
+	public void setZppath(String zppath) {
+		this.zppath = zppath;
+	}
+
+	public byte[] getZbzp() {
+		return zbzp;
+	}
+
+	public void setZbzp(byte[] zbzp) {
+		this.zbzp = zbzp;
+	}
+
 	/**
 	 * 设置：
 	 */

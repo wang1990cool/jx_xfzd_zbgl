@@ -101,7 +101,7 @@ public class VqcpbbzviewController {
         response.setContentType("multipart/form-data");
         response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode( "学生考试报名信息表.xlsx","UTF-8"));
         XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("学生考试报名信息");
+        XSSFSheet sheet = workbook.createSheet("匹配信息");
         int rowNum = 1;
         String[] headers = {"序号", "部门名称","装备类别", "装备名称","最小标准配备", "备份标准配备","当前库存","缺少数量"};
         //headers表示excel表中第一行的表头
