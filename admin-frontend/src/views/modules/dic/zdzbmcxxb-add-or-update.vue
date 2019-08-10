@@ -26,6 +26,27 @@
     <el-form-item label="保养周期" prop="byzq">
       <el-input v-model="dataForm.byzq" placeholder="保养周期 -1：不保养，单位为月"></el-input>
     </el-form-item>
+      <el-form-item label="装备照片" prop="zbzp">
+        <el-table-column v-if="false"
+                         prop="zppath"
+                         header-align="center"
+                         align="center"
+                         width="80"
+                         label="装备照片">
+        </el-table-column>
+        <el-upload
+          class="avatar-uploader"
+          :action= "uploadUrl"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="装备简介" prop="zbjs">
+         <Ueditor   ref="ue" :value="ueditor.value" :config="ueditor.config" id="hhh" ></Ueditor>
+      </el-form-item>
 <!--    <el-form-item label="" prop="bz">
       <el-input v-model="dataForm.bz" placeholder=""></el-input>
     </el-form-item>
@@ -42,11 +63,40 @@
     </span>
   </el-dialog>
 </template>
-
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>
 <script>
+  import Ueditor from '@/components/UE.vue';
   export default {
+    components: {
+      Ueditor
+    },
     data () {
       return {
+        uploadUrl: this.$http.adornUrl(`/upload?token=${this.$cookie.get('token')}`),
         visible: false,
         dataForm: {
           id: 0,
@@ -56,11 +106,15 @@
           zbmc: '',
           bfzq: '',
           byzq: '',
+          zbjs: '',
           bz: '',
           createUserId: '',
-          createTime: ''
+          createTime: '',
+          zbzp: '',
+          zppath:''
         },
         zblbList: [],
+        imageUrl: '',
         dataRule: {
           zblbid: [
             { required: true, message: '类别编码不能为空', trigger: 'blur' }
@@ -89,10 +143,26 @@
           createTime: [
             { required: true, message: '不能为空', trigger: 'blur' }*/
           ]
+        },
+        ueditor: {
+          value: '',
+          config: {
+          }
         }
       }
     },
     methods: {
+      editorReady(instance) {
+        instance.setContent(this.dataForm.zbjs);
+        instance.addListener('contentChange', () => {
+          this.dataForm.content = instance.getContent();
+        });
+      },
+
+      closeHandle () {
+        this.$refs['dataForm'].resetFields()
+        this.ueditor.value = this.dataForm.content
+      },
       init (id) {
         this.dataForm.id = id || 0
         this.visible = true
@@ -117,6 +187,9 @@
                   this.dataForm.zbmc = data.zdzbmcxxb.zbmc
                   this.dataForm.bfzq = data.zdzbmcxxb.bfzq
                   this.dataForm.byzq = data.zdzbmcxxb.byzq
+                  this.imageUrl = 'data:image/png;base64,' + data.zdzbmcxxb.zbzp
+                  this.dataForm.zppath = data.zdzbmcxxb.zppath
+                  this.ueditor.value = data.zdzbmcxxb.zbjs
                   this.dataForm.bz = data.zdzbmcxxb.bz
                   this.dataForm.createUserId = data.zdzbmcxxb.createUserId
                   this.dataForm.createTime = data.zdzbmcxxb.createTime
@@ -137,6 +210,59 @@
         this.dataForm.zblbmc = obj.label
 
       },
+      handleBeforeUpload(file){
+        if(!(file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg' || file.type === 'image/jpeg')) {
+          this.$notify.warning({
+            title: '警告',
+            message: '请上传格式为image/png, image/gif, image/jpg, image/jpeg的图片'
+          })
+        }
+        let size = file.size / 1024 / 1024 / 2
+        if (size > 2) {
+          this.$notify.warning({
+            title: '警告',
+            message: '图片大小必须小于2M'
+          })
+        }
+      },
+      // 文件超出个数限制时的钩子
+      handleExceed (files, fileList) {
+        this.$message({
+          showClose: true,
+          message: '这是一条消息提示'
+        })
+      },
+      // 文件列表移除文件时的钩子
+      handleRemove (file, fileList) {
+      },
+      // 点击文件列表中已上传的文件时的钩子
+      handlePictureCardPreview (file) {
+
+        this.imageUrl = file.url
+
+      },
+      uploadFile ( ) {
+        this.$refs.upload.submit()
+      },
+
+      handleAvatarSuccess (res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw)
+        console.log(file.raw)
+        this.dataForm.zppath = res.filename
+        console.log(res.filename)
+      },
+
+      beforeAvatarUpload (file) {
+        const isJPG = file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg' || file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
+        if (!isJPG) {
+          this.$message.error('上传图片只能是 JPG 格式!')
+        }
+        if (!isLt2M) {
+          this.$message.error('上传图片大小不能超过 2MB!')
+        }
+        return isJPG && isLt2M
+      },
 
       // 表单提交
       dataFormSubmit () {
@@ -153,9 +279,11 @@
                 'zbmc': this.dataForm.zbmc,
                 'bfzq': this.dataForm.bfzq,
                 'byzq': this.dataForm.byzq,
+                'zbjs': this.$refs.ue.getUEContent(),
                 'bz': this.dataForm.bz,
                 'createUserId': this.dataForm.createUserId,
-                'createTime': this.dataForm.createTime
+                'createTime': this.dataForm.createTime,
+                'zppath': this.dataForm.zppath
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
