@@ -65,7 +65,7 @@
         prop="zbsl"
         header-align="center"
         align="center"
-        label="当前库存">
+        label="当前实力">
       </el-table-column>
 <!--
       <el-table-column
@@ -97,12 +97,14 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
+<!--
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+-->
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './vqcpbbzview-add-or-update'
+///  import AddOrUpdate from './vqcpbbzview-add-or-update'
   export default {
     data () {
       return {
@@ -119,7 +121,7 @@
       }
     },
     components: {
-      AddOrUpdate
+//      AddOrUpdate
     },
     activated () {
       this.getDataList()

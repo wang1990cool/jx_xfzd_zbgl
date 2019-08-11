@@ -9,6 +9,7 @@ import io.admin.modules.dic.zbmc.entity.ZdZbmcxxbEntity;
 import io.admin.modules.dic.zbmc.service.ZdZbmcxxbService;
 import io.admin.modules.kcgl.kcmx.entity.ZbKcmxbEntity;
 import io.admin.modules.kcgl.kcmx.service.ZbKcmxbService;
+import io.admin.modules.kcgl.kcxx.entity.ZbKcxxbVo;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -75,7 +76,7 @@ public class ZbKcxxbController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("kcgl:zbkcxxb:save")
-    public R save(@RequestBody ZbKcxxbEntity zbKcxxb){
+    public R save(@RequestBody ZbKcxxbVo zbKcxxb){
             int rksl=zbKcxxb.getZbsl();
             for(int i=0 ;i<rksl;i++){
                 ZbKcmxbEntity zbKcmxb=new ZbKcmxbEntity();
@@ -93,6 +94,7 @@ public class ZbKcxxbController {
                 zbKcmxb.setCreateTime(new Date());
                 zbKcmxbService.insert(zbKcmxb);
             }
+/*
             ZbKcxxbEntity zbKcxx=zbKcxxbService.selectByzbid(zbKcxxb.getZbid(),zbKcxxb.getSsbmmc());
             if(zbKcxx==null){
                 zbKcxxbService.insert(zbKcxxb);
@@ -100,6 +102,7 @@ public class ZbKcxxbController {
                 zbKcxx.setZbsl(zbKcxx.getZbsl()+zbKcxxb.getZbsl());
                 zbKcxxbService.updateById(zbKcxx);
             }
+*/
         return R.ok();
     }
 
