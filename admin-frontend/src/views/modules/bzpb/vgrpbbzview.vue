@@ -6,6 +6,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
+        <el-button @click="exportDataList()">导出</el-button>
 <!--
         <el-button v-if="isAuth('bzpb:vgrpbbzview:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button v-if="isAuth('bzpb:vgrpbbzview:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
@@ -71,7 +72,7 @@
         prop="zbsl"
         header-align="center"
         align="center"
-        label="库存数量">
+        label="当前实力">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -125,6 +126,30 @@
       this.getDataList()
     },
     methods: {
+      exportDataList () {
+        this.$http({
+          url: this.$http.adornUrl('/bzpb/vgrpbbzview/export'),
+          method: 'post',
+          responseType:'arraybuffer',
+          params: this.$http.adornParams({
+            'ssbmmc': this.dataForm.ssbmmc
+          })
+        }).then(({data}) => {
+          if (data) {
+            const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
+            const downloadElement = document.createElement('a')
+            const href = window.URL.createObjectURL(blob)
+            downloadElement.href = href
+            let fname = '个人装备匹配不足信息表'
+            downloadElement.download =fname+'.xlsx'
+            document.body.appendChild(downloadElement)
+            downloadElement.click()
+            document.body.removeChild(downloadElement) // 下载完成移除元素
+            window.URL.revokeObjectURL(href) // 释放掉blob对象
+            this.getDataList()
+          }
+        })
+      },
       // 获取数据列表
       getDataList () {
         this.dataListLoading = true

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 库存信息表
@@ -14,21 +13,18 @@ import java.util.Date;
  * @email sunlightcs@gmail.com
  * @date 2019-07-01 11:17:05
  */
-@TableName("vkcxxbview")
-public class ZbKcxxbEntity implements Serializable {
-//	private static final long serialVersionUID = 1L;
+@TableName("zb_kcxxb")
+public class ZbKcxxbVo implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 
 	 */
-/*
 	@TableId
 	private Integer id;
-*/
 	/**
 	 * 装备编号
 	 */
-	@TableId
 	private String zbid;
 	/**
 	 * 装备名称
@@ -45,17 +41,26 @@ public class ZbKcxxbEntity implements Serializable {
 	/**
 	 * 生产日期
 	 */
-/*
 	@TableField(exist = false)
 	private String scrq;
-*/
 
 	/**
 	 * 装备数量
 	 */
 	private Integer zbsl;
 
-
+	/**
+	 * 设置：
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getId() {
+		return id;
+	}
 	/**
 	 * 设置：装备编号
 	 */
@@ -117,5 +122,11 @@ public class ZbKcxxbEntity implements Serializable {
 		return zbsl;
 	}
 
+	public String getScrq() {
+		return scrq;
+	}
 
+	public void setScrq(String scrq) {
+		this.scrq = scrq;
+	}
 }

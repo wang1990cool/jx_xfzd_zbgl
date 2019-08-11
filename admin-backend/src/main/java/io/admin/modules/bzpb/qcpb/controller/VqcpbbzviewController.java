@@ -103,7 +103,7 @@ public class VqcpbbzviewController {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("匹配信息");
         int rowNum = 1;
-        String[] headers = {"序号", "部门名称","装备类别", "装备名称","最小标准配备", "备份标准配备","当前库存","缺少数量"};
+        String[] headers = {"序号", "部门名称","装备类别", "装备名称","最小标准配备", "备份标准配备","当前实力","缺少数量"};
         //headers表示excel表中第一行的表头
         XSSFRow row = sheet.createRow(0);
         for(int i=0;i<headers.length;i++){
@@ -123,7 +123,7 @@ public class VqcpbbzviewController {
             row1.createCell(4).setCellValue(vqcpbbzviewEntity.getZbslmin());
             row1.createCell(5).setCellValue(vqcpbbzviewEntity.getBfzbsl());
             row1.createCell(6).setCellValue(vqcpbbzviewEntity.getZbsl());
-            row1.createCell(7).setCellValue(vqcpbbzviewEntity.getZbslmin()-vqcpbbzviewEntity.getZbsl());
+            row1.createCell(7).setCellValue(vqcpbbzviewEntity.getZbslmin()+vqcpbbzviewEntity.getBfzbsl()-vqcpbbzviewEntity.getZbsl());
 
             rowNum++;
         }
