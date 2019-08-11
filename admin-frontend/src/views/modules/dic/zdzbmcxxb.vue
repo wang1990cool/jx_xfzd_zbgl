@@ -59,7 +59,7 @@
         header-align="center"
         align="center"
         width="80"
-        label="证书照片">
+        label="装备照片">
         <template slot-scope="scope">
           <el-button   type="text" size="small" @click="zbzpHandle(scope.row.id)">装备图片 </el-button>
         </template>

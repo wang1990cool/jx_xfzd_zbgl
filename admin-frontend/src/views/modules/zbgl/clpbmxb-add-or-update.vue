@@ -98,6 +98,7 @@
               }).then(({data}) => {
                 this.zblbList = data.zblbList
               }).then(() => {
+                this.$refs['dataForm'].resetFields()
               })
           })
 

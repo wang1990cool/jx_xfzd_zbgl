@@ -62,6 +62,13 @@ public class ShiroConfig {
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/swagger-resources/**", "anon");
         filterMap.put("/captcha.jpg", "anon");
+
+        filterMap.put("/main/**","anon");  //vue集成
+        filterMap.put("/1907081058/**","anon");  //vue集成
+        filterMap.put("/config/**","anon");  //vue集成
+        filterMap.put("/ueditor/**", "anon");
+        filterMap.put("/ueditorimg/**","anon");
+
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 

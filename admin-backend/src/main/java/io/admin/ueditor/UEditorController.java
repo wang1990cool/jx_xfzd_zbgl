@@ -14,7 +14,7 @@ import java.io.PrintWriter;
  * @author Sunxiupeng on 2015年3月14日
  */
 @Controller
-@RequestMapping("/zbgl/ueditor")
+@RequestMapping("/ueditor")
 public class UEditorController {
 
 //

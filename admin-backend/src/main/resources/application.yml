@@ -7,7 +7,7 @@ server:
     port: 8080
     connection-timeout: 5000ms
     servlet:
-      context-path: /admin-fast
+      context-path: /xfzb
 
 
 spring:
@@ -41,6 +41,7 @@ spring:
         static-path-pattern: /static/**
     resources:
         add-mappings: true
+        static-locations: classpath:static/,file:static/,file:D:/
 
 #mybatis
 mybatis-plus:

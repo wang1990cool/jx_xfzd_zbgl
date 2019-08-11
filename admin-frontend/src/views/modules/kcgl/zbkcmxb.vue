@@ -283,8 +283,8 @@
 
 
         if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
-          LODOP.PRINT()
-//                      LODOP.PREVIEW()
+//          LODOP.PRINT()
+                      LODOP.PREVIEW()
         }
 
       },
@@ -341,7 +341,8 @@
           LODOP.SET_PRINT_STYLEA(2 + 2*i,"FontSize",11)
         }
         if (LODOP.SET_PRINTER_INDEX('ZDesigner GT800-300dpi EPL')){
-          LODOP.PRINT()
+          LODOP.PREVIEW()
+//          LODOP.PRINT()
         }
 
 /*

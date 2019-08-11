@@ -35,8 +35,8 @@
         //, serverUrl: URL + "jsp/controller.jsp"
        // , serverUrl: "http://127.0.0.1:9999/api/UE"
       // , serverUrl:URL+"/net/controller.ashx"
-       //, serverUrl: "http://127.0.0.1:8084/pfy/ueditor/exec"
-      , serverUrl: "http://locaohost:8080/xfzb/zbgl/ueditor/exec"
+      //      , serverUrl: "http://127.0.0.1:8080/xfzb/ueditor/exec"
+      , serverUrl: "http://111.38.56.61:5006/xfzb/ueditor/exec"
      // , serverUrl: URL + "jsp/controller.jsp"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
