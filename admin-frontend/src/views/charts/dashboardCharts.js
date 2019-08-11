@@ -62,9 +62,12 @@ const install = function(Vue) {
                   radius : '55%',
                   center: ['50%', '50%'],
                   data:[
-                    {value:kcSize[0], name:'库房装备'},
-                    {value:kcSize[1], name:'在车装备'},
-                    {value:kcSize[2], name:'警用装备'},
+                    {value: 12385, name:'库房装备'},
+                    {value: 4868, name:'在车装备'},
+                    {value: 1000, name:'警用装备'},
+                    // {value:kcSize[0], name:'库房装备'},
+                    // {value:kcSize[1], name:'在车装备'},
+                    // {value:kcSize[2], name:'警用装备'},
                   ],
                   itemStyle: {
                     emphasis: {

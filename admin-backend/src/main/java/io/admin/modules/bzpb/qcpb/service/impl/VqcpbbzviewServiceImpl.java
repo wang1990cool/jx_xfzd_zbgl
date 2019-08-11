@@ -23,10 +23,12 @@ public class VqcpbbzviewServiceImpl extends ServiceImpl<VqcpbbzviewDao, Vqcpbbzv
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         String ssbmmc=(String)params.get("ssbmmc");
+        String zbmc = (String)params.get("zbmc");
         Page<VqcpbbzviewEntity> page = this.selectPage(
                 new Query<VqcpbbzviewEntity>(params).getPage(),
                 new EntityWrapper<VqcpbbzviewEntity>().
-                        like(StringUtils.isNotBlank(ssbmmc), "bmmc", ssbmmc)
+                        like(StringUtils.isNotBlank(ssbmmc), "bmmc", ssbmmc).
+                        like(StringUtils.isNotBlank(zbmc), "zbmc", zbmc)
         );
 
         return new PageUtils(page);
