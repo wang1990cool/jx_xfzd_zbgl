@@ -19,6 +19,8 @@
      * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
+    //window.UEDITOR_HOME_URL = "./static/plugins/ueditor-1.4.3.3/";
+  window.UEDITOR_HOME_URL = "/xfzb/static/1907081058/static/plugins/ueditor-1.4.3.3/";
     var URL = window.UEDITOR_HOME_URL || getUEBasePath();
 
     /**
@@ -30,7 +32,12 @@
         UEDITOR_HOME_URL: URL
 
         // 服务器统一请求接口路径
-        , serverUrl: URL + "jsp/controller.jsp"
+        //, serverUrl: URL + "jsp/controller.jsp"
+       // , serverUrl: "http://127.0.0.1:9999/api/UE"
+      // , serverUrl:URL+"/net/controller.ashx"
+       //, serverUrl: "http://127.0.0.1:8084/pfy/ueditor/exec"
+      , serverUrl: "http://locaohost:8080/xfzb/zbgl/ueditor/exec"
+     // , serverUrl: URL + "jsp/controller.jsp"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         , toolbars: [[
@@ -41,7 +48,7 @@
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+            'insertimage', 'attachment', 'template',  '|',
             'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
             'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
             'print', 'preview', 'searchreplace', 'drafts', 'help'
@@ -61,7 +68,7 @@
         //,theme:'default'
         //,themePath:URL +"themes/"
 
-        //,zIndex : 900     //编辑器层级的基数,默认是900
+        ,zIndex : 99999999999    //编辑器层级的基数,默认是900
 
         //针对getAllHtml方法，会在对应的head标签中增加该编码设置。
         //,charset:"utf-8"
@@ -89,15 +96,15 @@
         //首行缩进距离,默认是2em
         //,indentValue:'2em'
 
-        //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-        //,initialFrameHeight:320  //初始化编辑器高度,默认320
+        ,initialFrameWidth:'100%'  //初始化编辑器宽度,默认1000
+        ,initialFrameHeight:320  //初始化编辑器高度,默认320
 
         //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        //,enableAutoSave: true
+        ,enableAutoSave: false
         //自动保存间隔时间， 单位ms
         //,saveInterval: 500
 
@@ -105,7 +112,7 @@
 
         //,imagePopup:true      //图片操作的浮层开关，默认打开
 
-        //,autoSyncData:true //自动同步编辑器要提交的数据
+        ,autoSyncData:false //自动同步编辑器要提交的数据
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
 
         //粘贴只保留标签，去除标签所有属性
@@ -150,7 +157,7 @@
         //        'num1':'1),2),3)...',
         //        'num2':'(1),(2),(3)...',
         //        'cn':'一,二,三....',
-        //        'cn1':'一),二),三)....',
+        //        'cn1':'一),二),三)
         //        'cn2':'(一),(二),(三)....',
         //     //系统自带
         //     'decimal' : '' ,         //'1,2,3...'
@@ -277,7 +284,7 @@
 
         //autoHeightEnabled
         // 是否自动长高,默认true
-        //,autoHeightEnabled:true
+        ,autoHeightEnabled:false
 
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)

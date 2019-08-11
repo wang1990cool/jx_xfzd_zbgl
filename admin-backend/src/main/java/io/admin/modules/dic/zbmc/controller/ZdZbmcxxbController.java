@@ -1,5 +1,7 @@
 package io.admin.modules.dic.zbmc.controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -59,10 +61,14 @@ public class ZdZbmcxxbController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("dic:zdzbmcxxb:save")
-    public R save(@RequestBody ZdZbmcxxbEntity zdZbmcxxb){
+    public R save(@RequestBody ZdZbmcxxbEntity zdZbmcxxb)  throws IOException {
         zdZbmcxxb.setCreateUserId(getUserEntity().getUserId());
         zdZbmcxxb.setCreateTime(new Date());
         zdZbmcxxb.setZbid(zdZbmcxxbService.getXlh(zdZbmcxxb.getZblbid()));
+        FileInputStream fis = new FileInputStream(zdZbmcxxb.getZppath());
+        byte[] buffer=new byte[fis.available()];
+        fis.read(buffer);
+        zdZbmcxxb.setZbzp(buffer);
 		zdZbmcxxbService.insert(zdZbmcxxb);
 
         return R.ok();
@@ -73,8 +79,12 @@ public class ZdZbmcxxbController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("dic:zdzbmcxxb:update")
-    public R update(@RequestBody ZdZbmcxxbEntity zdZbmcxxb){
-			zdZbmcxxbService.updateById(zdZbmcxxb);
+    public R update(@RequestBody ZdZbmcxxbEntity zdZbmcxxb) throws IOException {
+        FileInputStream fis = new FileInputStream(zdZbmcxxb.getZppath());
+        byte[] buffer=new byte[fis.available()];
+        fis.read(buffer);
+        zdZbmcxxb.setZbzp(buffer);
+        zdZbmcxxbService.updateById(zdZbmcxxb);
 
         return R.ok();
     }
