@@ -4,7 +4,7 @@ public enum KcztEnum {
 
     ZK(1,"在库"),ZC(2,"在车"),
     ZR(3,"在人"),JC(4,"借出"),
-    BF(6,"报废");
+    BF(6,"报废"),XN(7,"训练");
 
 
     private Integer code;
