@@ -39,7 +39,7 @@ public class VqcpbbzviewController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("bzpb:vqcpbbzview:list")
+//    @RequiresPermissions("bzpb:vqcpbbzview:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = vqcpbbzviewService.queryPage(params);
 
